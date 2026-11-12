@@ -1,0 +1,272 @@
+# =====================================================================
+# CyberSentinel · Module 1 : règles de détection des données sensibles
+# =====================================================================
+# Responsable : Aloïs (team cyber)
+#
+# Ce fichier est lu par rules/m1_detect.py (fonction detect(texte)).
+# Pour vérifier toutes les règles :  python rules/m1_detect.py --test
+#
+# --- Champs d'une règle ----------------------------------------------
+#   id          identifiant court, repris dans l'événement (champ "regle")
+#   libelle     nom lisible, affiché dans le tableau de bord
+#   categorie   étiquette du classifieur (identite, finance, sante,
+#               secret_technique, donnees_clients)
+#   priorite    critique > haute > moyenne > basse
+#               (en cas de chevauchement, la règle la plus prioritaire gagne)
+#   score       confiance de départ quand la règle déclenche (0 à 1)
+#   action      action par défaut : bloquer | masquer | alerter
+#                 bloquer  -> la requête ne part pas vers l'IA
+#                 masquer  -> la donnée est remplacée par des * avant envoi
+#                 alerter  -> la requête part, une alerte est créée
+#   motifs      une ou plusieurs expressions régulières (syntaxe Python)
+#   groupe      (optionnel) nom du groupe de la regex qui contient la donnée
+#   validation  contrôle appliqué après la regex pour éviter les faux positifs
+#   masquage    nombre de caractères gardés au début / à la fin
+#   exemples    3 textes qui DOIVENT déclencher, 3 qui NE DOIVENT PAS
+#
+# Toutes les valeurs des exemples sont INVENTÉES (numéros de test publics
+# ou générés avec une clé de contrôle valide). Aucune vraie donnée.
+# =====================================================================
+
+version: 1
+module: M1
+
+priorites:
+  critique: 4
+  haute: 3
+  moyenne: 2
+  basse: 1
+
+regles:
+
+  # -------------------------------------------------------------------
+  - id: iban
+    libelle: IBAN
+    categorie: finance
+    priorite: critique
+    score: 0.95
+    action: bloquer
+    motifs:
+      - nom: iban
+        regex: '\b[A-Z]{2}\d{2}(?:[ ]?[A-Z0-9]{4}){2,7}(?:[ ]?[A-Z0-9]{1,3})?\b'
+        ignorer_casse: true
+    validation: iban_mod97      # longueur 15-34 + clé ISO 13616 (modulo 97 = 1)
+    masquage: { debut: 4, fin: 3 }
+    exemples:
+      declenche:
+        - "Peux-tu rédiger un mail au client pour lui donner notre IBAN FR76 3000 6000 0112 3456 7890 189 ?"
+        - "Virement à faire sur FR1420041010050500013M02606 avant vendredi."
+        - "Le fournisseur allemand a l'IBAN DE89 3704 0044 0532 0130 00, traduis la facture."
+      ne_declenche_pas:
+        - "Mon IBAN est FR76 3000 6000 0112 3456 7890 188, c'est bon ?"    # clé de contrôle fausse
+        - "Explique-moi comment est construit un IBAN français (FR + 2 chiffres + 23 caractères)."
+        - "La référence de commande est FR12 ABCD 2024."                    # trop court
+    note: >
+      La clé modulo 97 élimine presque tous les faux positifs (références,
+      numéros de commande). Un IBAN n'est pas secret au sens strict, mais
+      associé à un nom il permet des fraudes au virement : on bloque.
+
+  # -------------------------------------------------------------------
+  - id: carte_bancaire
+    libelle: Carte bancaire
+    categorie: finance
+    priorite: critique
+    score: 0.95
+    action: bloquer
+    motifs:
+      - nom: carte
+        regex: '(?<![\d-])(?:\d[ -]?){12,18}\d(?![\d-])'
+    validation: carte_bancaire  # Luhn + préfixe/longueur Visa, Mastercard, Amex
+    masquage: { debut: 0, fin: 4 }
+    exemples:
+      declenche:
+        - "Le client a payé avec la carte 4111 1111 1111 1111, exp 12/27, il demande un remboursement."
+        - "Rédige une réclamation : ma carte 5555-5555-5555-4444 a été débitée deux fois."
+        - "Carte Amex de l'entreprise : 3782 822463 10005"
+      ne_declenche_pas:
+        - "Ma carte 4111 1111 1111 1112 est refusée, pourquoi ?"            # Luhn faux
+        - "Numéro de colis : 1234 5678 9012 3456"                            # préfixe non bancaire + Luhn faux
+        - "Les cartes Visa commencent par 4 et ont 16 chiffres."
+    note: >
+      Préfixes retenus : Visa (4, 13/16/19 chiffres), Mastercard (51-55 et
+      2221-2720, 16 chiffres), Amex (34/37, 15 chiffres). Les cartes CB
+      françaises sont co-badgées Visa ou Mastercard, donc couvertes.
+      Les numéros de test officiels (4111…) déclenchent : c'est voulu pour la démo.
+
+  # -------------------------------------------------------------------
+  - id: nir
+    libelle: Numéro de sécurité sociale (NIR)
+    categorie: sante
+    priorite: critique
+    score: 0.95
+    action: bloquer
+    motifs:
+      - nom: nir
+        # sexe | année | mois | département (2A/2B pour la Corse) | commune | ordre | clé
+        regex: '\b[12][ .]?\d{2}[ .]?(?:0[1-9]|1[0-2]|[2-9]\d)[ .]?(?:\d{2}|2[AB])[ .]?\d{3}[ .]?\d{3}[ .]?\d{2}\b'
+        ignorer_casse: true
+    validation: nir_cle         # clé = 97 - (13 premiers chiffres mod 97), 2A->19, 2B->18
+    masquage: { debut: 1, fin: 0 }
+    exemples:
+      declenche:
+        - "Remplis l'attestation pour le salarié, n° de sécu 1 85 05 78 006 084 91."
+        - "Mutuelle : NIR 185057800608491, peux-tu vérifier le formulaire ?"
+        - "Patiente née en Corse : 2 92 11 2A 123 456 27, rédige le courrier à la CPAM."
+      ne_declenche_pas:
+        - "Son numéro de sécu c'est 1 85 05 78 006 084 12 je crois."       # clé fausse
+        - "Le numéro de sécu fait 15 chiffres : sexe, année, mois, département…"
+        - "Facture n° 1 85 13 78 006 084 91"                                # mois 13 impossible
+    note: >
+      Donnée de santé au sens de la CNIL (le NIR donne accès au dossier
+      médical) : priorité maximale. Mois 20 et 30-99 acceptés car l'INSEE
+      les utilise pour les naissances à date inconnue.
+
+  # -------------------------------------------------------------------
+  - id: cle_api
+    libelle: Clé API / secret technique
+    categorie: secret_technique
+    priorite: critique
+    score: 0.9
+    action: bloquer
+    motifs:
+      - nom: openai_anthropic
+        regex: '(?<![A-Za-z0-9_-])sk-(?:proj-|ant-|svcacct-|admin-)?[A-Za-z0-9_-]{20,}'
+      - nom: aws_access_key
+        regex: '\b(?:AKIA|ASIA)[0-9A-Z]{16}\b'
+      - nom: github_token
+        regex: '\b(?:gh[pousr]_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{60,})\b'
+      - nom: google_api_key
+        regex: '\bAIza[0-9A-Za-z_-]{35}\b'
+      - nom: slack_token
+        regex: '\bxox[abposr]-[A-Za-z0-9-]{10,}\b'
+      - nom: stripe_secret
+        regex: '\b[sr]k_live_[A-Za-z0-9]{24,}\b'
+      - nom: jwt
+        regex: '\beyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b'
+      - nom: cle_privee
+        regex: '-----BEGIN (?:RSA |EC |DSA |OPENSSH |PGP |ENCRYPTED )?PRIVATE KEY(?: BLOCK)?-----'
+        validation: aucune      # l'en-tête suffit, pas de contrôle d'entropie
+    validation: entropie        # entropie de Shannon >= 3.0 bits/caractère (rejette sk-xxxxxxxx…)
+    masquage: { debut: 6, fin: 0 }
+    exemples:
+      declenche:
+        - "Pourquoi mon script plante ? client = OpenAI(api_key='sk-proj-9fKq2LmZx7RtYb4WcN8vPd1HsJ6uEoAa')"
+        - "Voici ma config boto3 : aws_access_key_id = AKIAIOSFODNN7EXAMPLE"
+        - "Corrige ce .gitlab-ci : GITHUB_TOKEN=ghp_R7m2Kx9QwLp4Zt8Vn3Bc6Hy1Js5Df0GaUeXi"
+        - "J'ai collé ça dans mon serveur : -----BEGIN OPENSSH PRIVATE KEY----- b3BlbnNzaC1rZXk..."
+      ne_declenche_pas:
+        - "Mets ta clé dans la variable : OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxx"   # placeholder
+        - "Voir le document risk-assessment-procedure-2024-v2 pour la méthode."
+        - "Les clés AWS commencent par AKIA, comment les faire tourner ?"
+    note: >
+      La clé AWS d'exemple (AKIAIOSFODNN7EXAMPLE) vient de la documentation
+      AWS. Les autres jetons sont aléatoires et invalides. Quand une clé
+      fuit, la seule vraie réponse est de la révoquer : l'alerte doit le dire.
+
+  # -------------------------------------------------------------------
+  - id: mot_de_passe
+    libelle: Mot de passe
+    categorie: secret_technique
+    priorite: haute
+    score: 0.8
+    action: masquer
+    motifs:
+      - nom: mot_de_passe
+        # mot-clé + jusqu'à 3 mots (« du wifi invité ») + séparateur (: = « est ») + valeur ; la valeur est dans le groupe "valeur"
+        regex: '(?<![A-Za-z])(?:mot de passe|mdp|password|passwd|pwd|passphrase)(?:\s+[\w''’-]+){0,3}?\s*(?:[:=]|\best\b\s*:?)\s*["''«]?\s*(?P<valeur>[^\s"''»,;]{6,})'
+        ignorer_casse: true
+    groupe: valeur
+    validation: mot_de_passe    # >= 2 types de caractères, pas un exemple du genre ****, <...>, ${...}
+    masquage: { debut: 0, fin: 0 }
+    exemples:
+      declenche:
+        - "Connecte-toi au serveur avec admin / mot de passe : Bdx2026!Ynov"
+        - "Ajoute la ligne DB_PASSWORD=Kx9#mPq2Lw dans le docker-compose."
+        - "Le mdp du wifi invité est Soleil-Bordeaux33, mets-le dans le mail d'accueil."
+      ne_declenche_pas:
+        - "J'ai oublié mon mot de passe, comment le réinitialiser ?"
+        - "password: ********"
+        - "Remplace mot de passe : <votre_mot_de_passe> par le tien."
+    note: >
+      Règle par contexte : sans mot-clé « mot de passe / mdp / password »
+      on ne peut pas reconnaître un mot de passe. On masque plutôt que de
+      bloquer : l'utilisateur peut souvent poser sa question sans la valeur.
+      Le modèle ML prendra le relais pour les cas sans mot-clé.
+
+  # -------------------------------------------------------------------
+  - id: telephone
+    libelle: Téléphone (France)
+    categorie: donnees_clients
+    priorite: moyenne
+    score: 0.7
+    action: masquer
+    motifs:
+      - nom: telephone_fr
+        regex: '(?<![\d+])(?:(?:\+|00)33[ .-]?(?:\(0\)[ .-]?)?|0)[1-9](?:[ .-]?\d{2}){4}(?![\d])'
+    validation: aucune
+    masquage: { debut: 2, fin: 2 }
+    exemples:
+      declenche:
+        - "Rappelle Mme Martin au 06 12 34 56 78 pour son dossier."
+        - "Standard du client : +33 1 23 45 67 89"
+        - "Mets mon numéro 07.98.76.54.32 en signature de mail."
+      ne_declenche_pas:
+        - "Le rendez-vous est le 06/12/2024 à 14h."
+        - "Mets à jour vers la version 1.2.3.4.5 du paquet."
+        - "Code postal 33000, ligne de bus 12 34."
+    note: >
+      Format français uniquement pour l'instant (0X XX XX XX XX, +33, 0033).
+      Le numéro du standard d'une entreprise n'est pas sensible : c'est
+      pourquoi on masque au lieu de bloquer.
+
+  # -------------------------------------------------------------------
+  - id: email
+    libelle: Adresse e-mail
+    categorie: donnees_clients
+    priorite: moyenne
+    score: 0.6
+    action: masquer
+    motifs:
+      - nom: email
+        regex: '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}\b'
+    validation: aucune
+    masquage: { debut: 1, fin: 0 }
+    exemples:
+      declenche:
+        - "Réponds à jean.dupont@entreprise-exemple.fr pour lui dire que sa commande part demain."
+        - "Liste des inscrits : marie-claire+rh@societe-test.com, paul@test.io"
+        - "Écris au service : c.martin@mairie-exemple.gouv.fr"
+      ne_declenche_pas:
+        - "Envoie-le à jean.dupont@entreprise, il comprendra."              # pas de domaine complet
+        - "Mentionne @marie dans le canal Teams."
+        - "pip install requests==2.31 (ou requests@2.31 avec npm)"
+    note: >
+      Une seule adresse est peu grave ; une liste d'adresses clients est
+      une fuite RGPD. Piste séance 4 : augmenter le score au-delà de 5
+      adresses dans le même prompt.
+
+  # -------------------------------------------------------------------
+  - id: siret
+    libelle: SIRET
+    categorie: donnees_clients
+    priorite: basse
+    score: 0.4
+    action: alerter
+    motifs:
+      - nom: siret
+        regex: '\b\d{3}[ ]?\d{3}[ ]?\d{3}[ ]?\d{5}\b'
+    validation: siret           # Luhn sur 14 chiffres (exception La Poste : somme des chiffres multiple de 5)
+    masquage: { debut: 3, fin: 0 }
+    exemples:
+      declenche:
+        - "Fais une facture pour le client SIRET 732 829 320 00074."
+        - "Notre fournisseur : SIRET 55201400000012, adresse à compléter."
+        - "Le bureau de poste a le SIRET 356 000 000 49837."                # exception La Poste
+      ne_declenche_pas:
+        - "SIRET 732 829 320 00075"                                          # Luhn faux
+        - "Un SIRET fait 14 chiffres : le SIREN (9) puis le NIC (5)."
+        - "Total des ventes : 123 456 789 12345 euros ? non, refais le calcul."  # Luhn faux
+    note: >
+      Le SIRET est public (annuaire INSEE). Seul, il n'est pas sensible ;
+      il le devient quand il désigne un client et qu'il est accompagné
+      d'autres infos. On se contente d'une alerte basse priorité.
