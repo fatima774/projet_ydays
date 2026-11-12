@@ -1,0 +1,451 @@
+﻿id,detecteur,sensible,categorie,piege,types_donnees,alerte,types_trouves,types_rates,duree_ms
+1,Presidio natif,0,non_sensible,1,,True,URL,,8.18
+1,Règles M1,0,non_sensible,1,,False,,,0.05
+1,Hybride,0,non_sensible,1,,False,,,3.84
+2,Presidio natif,1,identite,0,NOM|DATE_NAISSANCE,True,DATE_TIME|PERSON,,8.82
+2,Règles M1,1,identite,0,NOM|DATE_NAISSANCE,False,,NOM|DATE_NAISSANCE,0.09
+2,Hybride,1,identite,0,NOM|DATE_NAISSANCE,True,PERSON,DATE_NAISSANCE,5.48
+3,Presidio natif,0,non_sensible,1,,False,,,6.22
+3,Règles M1,0,non_sensible,1,,False,,,0.05
+3,Hybride,0,non_sensible,1,,False,,,4.57
+4,Presidio natif,1,identite,0,NOM|NIR,True,PERSON,NIR,53.68
+4,Règles M1,1,identite,0,NOM|NIR,True,nir,NOM,0.17
+4,Hybride,1,identite,0,NOM|NIR,True,PERSON|nir,,7.89
+5,Presidio natif,1,identite,0,NOM|ADRESSE|TEL|EMAIL,True,EMAIL_ADDRESS|LOCATION|PERSON|PHONE_NUMBER|URL,,126.6
+5,Règles M1,1,identite,0,NOM|ADRESSE|TEL|EMAIL,True,email|telephone,NOM|ADRESSE,0.1
+5,Hybride,1,identite,0,NOM|ADRESSE|TEL|EMAIL,True,EMAIL_ADDRESS|PERSON|PHONE_NUMBER|email|telephone,ADRESSE,8.21
+6,Presidio natif,0,non_sensible,1,,False,,,8.67
+6,Règles M1,0,non_sensible,1,,False,,,0.05
+6,Hybride,0,non_sensible,1,,False,,,5.16
+7,Presidio natif,1,secret_technique,0,LICENCE,False,,LICENCE,10.05
+7,Règles M1,1,secret_technique,0,LICENCE,False,,LICENCE,0.06
+7,Hybride,1,secret_technique,0,LICENCE,False,,LICENCE,6.27
+8,Presidio natif,1,finance,0,CARTE,True,DATE_TIME|PHONE_NUMBER,CARTE,10.23
+8,Règles M1,1,finance,0,CARTE,True,carte_bancaire,,0.09
+8,Hybride,1,finance,0,CARTE,True,PHONE_NUMBER|carte_bancaire,,7.66
+9,Presidio natif,0,non_sensible,0,,False,,,6.91
+9,Règles M1,0,non_sensible,0,,False,,,0.04
+9,Hybride,0,non_sensible,0,,False,,,4.14
+10,Presidio natif,0,non_sensible,1,,False,,,7.7
+10,Règles M1,0,non_sensible,1,,False,,,0.05
+10,Hybride,0,non_sensible,1,,False,,,5.9
+11,Presidio natif,1,donnees_clients,0,NOM|TEL,True,PERSON|PHONE_NUMBER,,8.34
+11,Règles M1,1,donnees_clients,0,NOM|TEL,True,telephone,NOM,0.09
+11,Hybride,1,donnees_clients,0,NOM|TEL,True,PERSON|PHONE_NUMBER|telephone,,6.64
+12,Presidio natif,0,non_sensible,1,,True,DATE_TIME|ORGANIZATION,,10.87
+12,Règles M1,0,non_sensible,1,,True,carte_bancaire,,0.08
+12,Hybride,0,non_sensible,1,,True,carte_bancaire,,7.7
+13,Presidio natif,1,secret_technique,0,CLE_API,True,URL,CLE_API,8.75
+13,Règles M1,1,secret_technique,0,CLE_API,True,cle_api,,0.11
+13,Hybride,1,secret_technique,0,CLE_API,True,cle_api,,6.1
+14,Presidio natif,1,donnees_clients,0,NOM|ADRESSE,True,LOCATION|PERSON,,9.49
+14,Règles M1,1,donnees_clients,0,NOM|ADRESSE,False,,NOM|ADRESSE,0.07
+14,Hybride,1,donnees_clients,0,NOM|ADRESSE,True,PERSON,ADRESSE,6.35
+15,Presidio natif,1,donnees_clients,0,SIRET|NOM,True,PERSON,SIRET,16.47
+15,Règles M1,1,donnees_clients,0,SIRET|NOM,True,siret,NOM,0.13
+15,Hybride,1,donnees_clients,0,SIRET|NOM,True,PERSON|siret,,10.61
+16,Presidio natif,0,non_sensible,1,,True,LOCATION|ORGANIZATION,,6.06
+16,Règles M1,0,non_sensible,1,,False,,,0.06
+16,Hybride,0,non_sensible,1,,False,,,4.24
+17,Presidio natif,1,donnees_clients,0,DONNEES_COMMERCIALES|NOM|EMAIL,True,EMAIL_ADDRESS|LOCATION|PERSON|URL,DONNEES_COMMERCIALES,11.45
+17,Règles M1,1,donnees_clients,0,DONNEES_COMMERCIALES|NOM|EMAIL,True,email,DONNEES_COMMERCIALES|NOM,0.1
+17,Hybride,1,donnees_clients,0,DONNEES_COMMERCIALES|NOM|EMAIL,True,EMAIL_ADDRESS|PERSON|email,DONNEES_COMMERCIALES,9.88
+18,Presidio natif,1,donnees_clients,0,NOM|TEL|EMAIL,True,EMAIL_ADDRESS|PERSON|PHONE_NUMBER|URL,,9.69
+18,Règles M1,1,donnees_clients,0,NOM|TEL|EMAIL,True,email|telephone,NOM,0.1
+18,Hybride,1,donnees_clients,0,NOM|TEL|EMAIL,True,EMAIL_ADDRESS|PERSON|PHONE_NUMBER|email|telephone,,6.31
+19,Presidio natif,0,non_sensible,1,,False,,,7.64
+19,Règles M1,0,non_sensible,1,,False,,,0.04
+19,Hybride,0,non_sensible,1,,False,,,3.73
+20,Presidio natif,1,finance,0,CARTE,True,DATE_TIME|ORGANIZATION,CARTE,11.18
+20,Règles M1,1,finance,0,CARTE,True,carte_bancaire,,0.1
+20,Hybride,1,finance,0,CARTE,True,carte_bancaire,,6.94
+21,Presidio natif,1,finance,0,NOM|SALAIRE|DETTE,True,PERSON,SALAIRE|DETTE,8.14
+21,Règles M1,1,finance,0,NOM|SALAIRE|DETTE,False,,NOM|SALAIRE|DETTE,0.06
+21,Hybride,1,finance,0,NOM|SALAIRE|DETTE,True,PERSON,SALAIRE|DETTE,5.3
+22,Presidio natif,1,donnees_clients,0,NOM|EMAIL,True,EMAIL_ADDRESS|LOCATION|PERSON|URL,,11.32
+22,Règles M1,1,donnees_clients,0,NOM|EMAIL,True,email,NOM,0.1
+22,Hybride,1,donnees_clients,0,NOM|EMAIL,True,EMAIL_ADDRESS|PERSON|email,,6.04
+23,Presidio natif,1,secret_technique,0,CLE_API,False,,CLE_API,9.15
+23,Règles M1,1,secret_technique,0,CLE_API,False,,CLE_API,0.06
+23,Hybride,1,secret_technique,0,CLE_API,False,,CLE_API,4.59
+24,Presidio natif,1,identite,0,NOM|ADRESSE|TEL,True,LOCATION|PERSON|PHONE_NUMBER,,9.41
+24,Règles M1,1,identite,0,NOM|ADRESSE|TEL,True,telephone,NOM|ADRESSE,0.09
+24,Hybride,1,identite,0,NOM|ADRESSE|TEL,True,PERSON|PHONE_NUMBER|telephone,ADRESSE,7.79
+25,Presidio natif,0,non_sensible,1,,False,,,7.06
+25,Règles M1,0,non_sensible,1,,False,,,0.05
+25,Hybride,0,non_sensible,1,,False,,,4.25
+26,Presidio natif,0,non_sensible,1,,True,LOCATION,,5.96
+26,Règles M1,0,non_sensible,1,,False,,,0.04
+26,Hybride,0,non_sensible,1,,False,,,3.93
+27,Presidio natif,0,non_sensible,0,,False,,,4.88
+27,Règles M1,0,non_sensible,0,,False,,,0.05
+27,Hybride,0,non_sensible,0,,False,,,4.72
+28,Presidio natif,0,non_sensible,1,,True,EMAIL_ADDRESS|LOCATION|ORGANIZATION|URL,,6.5
+28,Règles M1,0,non_sensible,1,,True,email,,0.07
+28,Hybride,0,non_sensible,1,,True,EMAIL_ADDRESS|email,,4.86
+29,Presidio natif,1,identite,0,NOM|TEL|EMAIL,True,EMAIL_ADDRESS|PERSON|PHONE_NUMBER|URL,,9.44
+29,Règles M1,1,identite,0,NOM|TEL|EMAIL,True,email|telephone,NOM,0.12
+29,Hybride,1,identite,0,NOM|TEL|EMAIL,True,EMAIL_ADDRESS|PERSON|PHONE_NUMBER|email|telephone,,6.53
+30,Presidio natif,1,sante,0,NOM|SANTE,True,PERSON,SANTE,7.98
+30,Règles M1,1,sante,0,NOM|SANTE,False,,NOM|SANTE,0.05
+30,Hybride,1,sante,0,NOM|SANTE,True,PERSON,SANTE,4.6
+31,Presidio natif,1,finance,0,NOM|SALAIRE,True,PERSON,SALAIRE,8.82
+31,Règles M1,1,finance,0,NOM|SALAIRE,False,,NOM|SALAIRE,0.07
+31,Hybride,1,finance,0,NOM|SALAIRE,True,PERSON,SALAIRE,6.24
+32,Presidio natif,1,sante,0,NOM|SANTE,True,PERSON,SANTE,6.98
+32,Règles M1,1,sante,0,NOM|SANTE,False,,NOM|SANTE,0.06
+32,Hybride,1,sante,0,NOM|SANTE,True,PERSON,SANTE,5.05
+33,Presidio natif,1,donnees_clients,0,NOM|TEL,True,PERSON|PHONE_NUMBER,,12.52
+33,Règles M1,1,donnees_clients,0,NOM|TEL,True,telephone,NOM,0.1
+33,Hybride,1,donnees_clients,0,NOM|TEL,True,PERSON|PHONE_NUMBER|telephone,,8.96
+34,Presidio natif,0,non_sensible,1,,False,,,7.71
+34,Règles M1,0,non_sensible,1,,False,,,0.06
+34,Hybride,0,non_sensible,1,,False,,,5.21
+35,Presidio natif,0,non_sensible,0,,True,LOCATION,,4.82
+35,Règles M1,0,non_sensible,0,,False,,,0.04
+35,Hybride,0,non_sensible,0,,False,,,3.32
+36,Presidio natif,1,donnees_clients,0,NOM|TEL,True,PERSON|PHONE_NUMBER,,9.37
+36,Règles M1,1,donnees_clients,0,NOM|TEL,True,telephone,NOM,0.09
+36,Hybride,1,donnees_clients,0,NOM|TEL,True,PERSON|PHONE_NUMBER|telephone,,10.21
+37,Presidio natif,0,non_sensible,0,,False,,,4.96
+37,Règles M1,0,non_sensible,0,,False,,,0.04
+37,Hybride,0,non_sensible,0,,False,,,4.37
+38,Presidio natif,0,non_sensible,1,,True,ORGANIZATION|URL,,7.77
+38,Règles M1,0,non_sensible,1,,True,cle_api,,0.13
+38,Hybride,0,non_sensible,1,,True,cle_api,,5.72
+39,Presidio natif,1,sante,0,NOM|SANTE,True,PERSON,SANTE,8.79
+39,Règles M1,1,sante,0,NOM|SANTE,False,,NOM|SANTE,0.07
+39,Hybride,1,sante,0,NOM|SANTE,True,PERSON,SANTE,5.42
+40,Presidio natif,0,non_sensible,0,,False,,,5.92
+40,Règles M1,0,non_sensible,0,,False,,,0.04
+40,Hybride,0,non_sensible,0,,False,,,4.2
+41,Presidio natif,1,finance,0,IBAN|NOM|SOLDE,True,DATE_TIME|IBAN_CODE|LOCATION|MEDICAL_LICENSE|ORGANIZATION|PERSON,SOLDE,10.89
+41,Règles M1,1,finance,0,IBAN|NOM|SOLDE,True,iban,NOM|SOLDE,0.17
+41,Hybride,1,finance,0,IBAN|NOM|SOLDE,True,IBAN_CODE|PERSON|iban,SOLDE,9.24
+42,Presidio natif,0,non_sensible,1,,True,ORGANIZATION,,8.4
+42,Règles M1,0,non_sensible,1,,False,,,0.06
+42,Hybride,0,non_sensible,1,,False,,,5.37
+43,Presidio natif,1,sante,0,SANTE,True,LOCATION|PERSON,SANTE,9.2
+43,Règles M1,1,sante,0,SANTE,False,,SANTE,0.08
+43,Hybride,1,sante,0,SANTE,True,PERSON,SANTE,5.85
+44,Presidio natif,1,sante,0,NOM|SANTE,True,PERSON,SANTE,6.54
+44,Règles M1,1,sante,0,NOM|SANTE,False,,NOM|SANTE,0.06
+44,Hybride,1,sante,0,NOM|SANTE,True,PERSON,SANTE,5.73
+45,Presidio natif,0,non_sensible,1,,False,,,10.47
+45,Règles M1,0,non_sensible,1,,False,,,0.06
+45,Hybride,0,non_sensible,1,,False,,,4.96
+46,Presidio natif,1,identite,0,NOM|DATE_NAISSANCE|NIR|ADRESSE,True,DATE_TIME|LOCATION|PERSON,NIR,10.51
+46,Règles M1,1,identite,0,NOM|DATE_NAISSANCE|NIR|ADRESSE,True,nir,NOM|DATE_NAISSANCE|ADRESSE,0.11
+46,Hybride,1,identite,0,NOM|DATE_NAISSANCE|NIR|ADRESSE,True,PERSON|nir,DATE_NAISSANCE|ADRESSE,7.28
+47,Presidio natif,1,identite,0,NOM|PERMIS|IMMATRICULATION,True,LOCATION|PERSON,PERMIS|IMMATRICULATION,8.17
+47,Règles M1,1,identite,0,NOM|PERMIS|IMMATRICULATION,False,,NOM|PERMIS|IMMATRICULATION,0.06
+47,Hybride,1,identite,0,NOM|PERMIS|IMMATRICULATION,True,PERSON,PERMIS|IMMATRICULATION,6.04
+48,Presidio natif,0,non_sensible,1,,True,LOCATION,,8.27
+48,Règles M1,0,non_sensible,1,,False,,,0.06
+48,Hybride,0,non_sensible,1,,False,,,4.87
+49,Presidio natif,0,non_sensible,1,,True,PERSON,,7.24
+49,Règles M1,0,non_sensible,1,,False,,,0.06
+49,Hybride,0,non_sensible,1,,True,PERSON,,5.38
+50,Presidio natif,1,secret_technique,0,MOT_DE_PASSE,True,URL,MOT_DE_PASSE,9.55
+50,Règles M1,1,secret_technique,0,MOT_DE_PASSE,False,,MOT_DE_PASSE,0.06
+50,Hybride,1,secret_technique,0,MOT_DE_PASSE,False,,MOT_DE_PASSE,5.81
+51,Presidio natif,0,non_sensible,0,,False,,,6.35
+51,Règles M1,0,non_sensible,0,,False,,,0.08
+51,Hybride,0,non_sensible,0,,False,,,4.51
+52,Presidio natif,1,finance,0,IBAN,True,IBAN_CODE|LOCATION,,6.8
+52,Règles M1,1,finance,0,IBAN,True,iban,,0.09
+52,Hybride,1,finance,0,IBAN,True,IBAN_CODE|iban,,5.24
+53,Presidio natif,0,non_sensible,1,,False,,,6.71
+53,Règles M1,0,non_sensible,1,,False,,,0.06
+53,Hybride,0,non_sensible,1,,False,,,4.53
+54,Presidio natif,1,secret_technique,0,SECRET,True,LOCATION|UUID,SECRET,12.42
+54,Règles M1,1,secret_technique,0,SECRET,False,,SECRET,0.08
+54,Hybride,1,secret_technique,0,SECRET,False,,SECRET,6.23
+55,Presidio natif,0,non_sensible,1,,True,ORGANIZATION,,7.29
+55,Règles M1,0,non_sensible,1,,False,,,0.05
+55,Hybride,0,non_sensible,1,,False,,,5.13
+56,Presidio natif,1,donnees_clients,0,EMAIL,True,EMAIL_ADDRESS|URL,,8.53
+56,Règles M1,1,donnees_clients,0,EMAIL,True,email,,0.09
+56,Hybride,1,donnees_clients,0,EMAIL,True,EMAIL_ADDRESS|email,,5.41
+57,Presidio natif,0,non_sensible,1,,True,LOCATION,,10.83
+57,Règles M1,0,non_sensible,1,,False,,,0.06
+57,Hybride,0,non_sensible,1,,False,,,4.58
+58,Presidio natif,1,secret_technique,0,MOT_DE_PASSE,True,ORGANIZATION,MOT_DE_PASSE,7.06
+58,Règles M1,1,secret_technique,0,MOT_DE_PASSE,False,,MOT_DE_PASSE,0.09
+58,Hybride,1,secret_technique,0,MOT_DE_PASSE,False,,MOT_DE_PASSE,6.99
+59,Presidio natif,0,non_sensible,1,,False,,,7.58
+59,Règles M1,0,non_sensible,1,,False,,,0.05
+59,Hybride,0,non_sensible,1,,False,,,5.44
+60,Presidio natif,1,secret_technique,0,CLE_API,False,,CLE_API,6.98
+60,Règles M1,1,secret_technique,0,CLE_API,True,cle_api,,0.1
+60,Hybride,1,secret_technique,0,CLE_API,True,cle_api,,4.46
+61,Presidio natif,0,non_sensible,0,,False,,,4.79
+61,Règles M1,0,non_sensible,0,,False,,,0.04
+61,Hybride,0,non_sensible,0,,False,,,3.6
+62,Presidio natif,1,sante,0,NOM|NIR|SANTE,True,PERSON,NIR|SANTE,10.87
+62,Règles M1,1,sante,0,NOM|NIR|SANTE,True,nir,NOM|SANTE,0.1
+62,Hybride,1,sante,0,NOM|NIR|SANTE,True,PERSON|nir,SANTE,8.11
+63,Presidio natif,0,non_sensible,1,,True,URL,,6.62
+63,Règles M1,0,non_sensible,1,,False,,,0.05
+63,Hybride,0,non_sensible,1,,False,,,5.15
+64,Presidio natif,1,donnees_clients,0,NOM|TEL,True,PERSON|PHONE_NUMBER,,10.21
+64,Règles M1,1,donnees_clients,0,NOM|TEL,True,telephone,NOM,0.09
+64,Hybride,1,donnees_clients,0,NOM|TEL,True,PERSON|PHONE_NUMBER|telephone,,6.95
+65,Presidio natif,0,non_sensible,1,,False,,,6.92
+65,Règles M1,0,non_sensible,1,,False,,,0.07
+65,Hybride,0,non_sensible,1,,False,,,4.16
+66,Presidio natif,1,sante,0,NOM|SANTE,True,PERSON,SANTE,6.67
+66,Règles M1,1,sante,0,NOM|SANTE,False,,NOM|SANTE,0.05
+66,Hybride,1,sante,0,NOM|SANTE,True,PERSON,SANTE,4.32
+67,Presidio natif,1,secret_technique,0,URL_SECRETE,True,URL,,6.84
+67,Règles M1,1,secret_technique,0,URL_SECRETE,False,,URL_SECRETE,0.06
+67,Hybride,1,secret_technique,0,URL_SECRETE,False,,URL_SECRETE,4.38
+68,Presidio natif,1,donnees_clients,0,NOM|TEL|DONNEES_COMMERCIALES,True,PERSON|PHONE_NUMBER,DONNEES_COMMERCIALES,9.17
+68,Règles M1,1,donnees_clients,0,NOM|TEL|DONNEES_COMMERCIALES,True,telephone,NOM|DONNEES_COMMERCIALES,0.08
+68,Hybride,1,donnees_clients,0,NOM|TEL|DONNEES_COMMERCIALES,True,PERSON|PHONE_NUMBER|telephone,DONNEES_COMMERCIALES,7.73
+69,Presidio natif,1,donnees_clients,0,NOM|ADRESSE,True,LOCATION|PERSON,,10.22
+69,Règles M1,1,donnees_clients,0,NOM|ADRESSE,False,,NOM|ADRESSE,0.15
+69,Hybride,1,donnees_clients,0,NOM|ADRESSE,True,PERSON,ADRESSE,6.49
+70,Presidio natif,1,identite,0,NOM|CNI,True,PERSON,CNI,8.36
+70,Règles M1,1,identite,0,NOM|CNI,False,,NOM|CNI,0.06
+70,Hybride,1,identite,0,NOM|CNI,True,PERSON,CNI,5.7
+71,Presidio natif,0,non_sensible,1,,False,,,9.92
+71,Règles M1,0,non_sensible,1,,False,,,0.07
+71,Hybride,0,non_sensible,1,,False,,,5.91
+72,Presidio natif,1,secret_technique,0,TOKEN,True,EMAIL_ADDRESS|PERSON|URL,TOKEN,6.63
+72,Règles M1,1,secret_technique,0,TOKEN,True,cle_api,,0.1
+72,Hybride,1,secret_technique,0,TOKEN,True,EMAIL_ADDRESS|PERSON|cle_api,,4.85
+73,Presidio natif,0,non_sensible,1,,True,ORGANIZATION,,6.67
+73,Règles M1,0,non_sensible,1,,False,,,0.05
+73,Hybride,0,non_sensible,1,,False,,,5.49
+74,Presidio natif,0,non_sensible,1,,False,,,8.55
+74,Règles M1,0,non_sensible,1,,False,,,0.06
+74,Hybride,0,non_sensible,1,,False,,,5.93
+75,Presidio natif,0,non_sensible,1,,True,UUID,,5.75
+75,Règles M1,0,non_sensible,1,,False,,,0.04
+75,Hybride,0,non_sensible,1,,False,,,4.94
+76,Presidio natif,1,finance,0,IBAN|SOLDE,True,IBAN_CODE|ORGANIZATION,SOLDE,8.22
+76,Règles M1,1,finance,0,IBAN|SOLDE,True,iban,SOLDE,0.11
+76,Hybride,1,finance,0,IBAN|SOLDE,True,IBAN_CODE|iban,SOLDE,6.12
+77,Presidio natif,0,non_sensible,1,,False,,,6.86
+77,Règles M1,0,non_sensible,1,,False,,,0.07
+77,Hybride,0,non_sensible,1,,False,,,4.66
+78,Presidio natif,1,donnees_clients,0,SIRET|NOM,True,ORGANIZATION|PERSON|PHONE_NUMBER,SIRET,8.96
+78,Règles M1,1,donnees_clients,0,SIRET|NOM,True,siret,NOM,0.12
+78,Hybride,1,donnees_clients,0,SIRET|NOM,True,PERSON|PHONE_NUMBER|siret,,6.78
+79,Presidio natif,0,non_sensible,1,,False,,,6.63
+79,Règles M1,0,non_sensible,1,,False,,,0.05
+79,Hybride,0,non_sensible,1,,False,,,4.45
+80,Presidio natif,1,sante,0,NOM|SANTE,True,PERSON,SANTE,8.19
+80,Règles M1,1,sante,0,NOM|SANTE,False,,NOM|SANTE,0.07
+80,Hybride,1,sante,0,NOM|SANTE,True,PERSON,SANTE,5.92
+81,Presidio natif,0,non_sensible,1,,False,,,7.21
+81,Règles M1,0,non_sensible,1,,False,,,0.05
+81,Hybride,0,non_sensible,1,,False,,,4.4
+82,Presidio natif,1,donnees_clients,0,NOM|TEL|EMAIL,True,EMAIL_ADDRESS|LOCATION|ORGANIZATION|PERSON|PHONE_NUMBER|URL,,10.33
+82,Règles M1,1,donnees_clients,0,NOM|TEL|EMAIL,True,email|telephone,NOM,0.12
+82,Hybride,1,donnees_clients,0,NOM|TEL|EMAIL,True,EMAIL_ADDRESS|PERSON|PHONE_NUMBER|email|telephone,,8.3
+83,Presidio natif,1,donnees_clients,0,EMAIL,True,EMAIL_ADDRESS|URL,,9.77
+83,Règles M1,1,donnees_clients,0,EMAIL,True,email,,0.1
+83,Hybride,1,donnees_clients,0,EMAIL,True,EMAIL_ADDRESS|email,,6.32
+84,Presidio natif,1,identite,0,NOM|TEL|EMAIL|DATE_NAISSANCE,True,DATE_TIME|EMAIL_ADDRESS|PERSON|PHONE_NUMBER|URL,,12.19
+84,Règles M1,1,identite,0,NOM|TEL|EMAIL|DATE_NAISSANCE,True,email|telephone,NOM|DATE_NAISSANCE,0.09
+84,Hybride,1,identite,0,NOM|TEL|EMAIL|DATE_NAISSANCE,True,EMAIL_ADDRESS|PERSON|PHONE_NUMBER|email|telephone,DATE_NAISSANCE,8.11
+85,Presidio natif,0,non_sensible,1,,False,,,6.94
+85,Règles M1,0,non_sensible,1,,False,,,0.05
+85,Hybride,0,non_sensible,1,,False,,,4.78
+86,Presidio natif,0,non_sensible,1,,True,PERSON,,5.46
+86,Règles M1,0,non_sensible,1,,False,,,0.06
+86,Hybride,0,non_sensible,1,,True,PERSON,,4.87
+87,Presidio natif,1,identite,0,NOM|DATE_NAISSANCE|NIR|ADRESSE,True,DATE_TIME|LOCATION|PERSON,NIR,8.27
+87,Règles M1,1,identite,0,NOM|DATE_NAISSANCE|NIR|ADRESSE,True,nir,NOM|DATE_NAISSANCE|ADRESSE,0.1
+87,Hybride,1,identite,0,NOM|DATE_NAISSANCE|NIR|ADRESSE,True,PERSON|nir,DATE_NAISSANCE|ADRESSE,6.86
+88,Presidio natif,0,non_sensible,1,,False,,,6.53
+88,Règles M1,0,non_sensible,1,,False,,,0.06
+88,Hybride,0,non_sensible,1,,False,,,4.44
+89,Presidio natif,1,finance,0,IBAN|PRET,True,IBAN_CODE|LOCATION,PRET,11.14
+89,Règles M1,1,finance,0,IBAN|PRET,True,iban,PRET,0.15
+89,Hybride,1,finance,0,IBAN|PRET,True,IBAN_CODE|iban,PRET,7.51
+90,Presidio natif,0,non_sensible,1,,False,,,5.12
+90,Règles M1,0,non_sensible,1,,False,,,0.04
+90,Hybride,0,non_sensible,1,,False,,,4.58
+91,Presidio natif,0,non_sensible,1,,False,,,8.63
+91,Règles M1,0,non_sensible,1,,False,,,0.06
+91,Hybride,0,non_sensible,1,,False,,,3.92
+92,Presidio natif,1,secret_technique,0,CLE_PRIVEE,False,,CLE_PRIVEE,7.05
+92,Règles M1,1,secret_technique,0,CLE_PRIVEE,True,cle_api,,0.11
+92,Hybride,1,secret_technique,0,CLE_PRIVEE,True,cle_api,,5.54
+93,Presidio natif,0,non_sensible,1,,True,ORGANIZATION,,4.79
+93,Règles M1,0,non_sensible,1,,False,,,0.04
+93,Hybride,0,non_sensible,1,,False,,,3.84
+94,Presidio natif,1,sante,0,NOM|SANTE,True,PERSON,SANTE,8.37
+94,Règles M1,1,sante,0,NOM|SANTE,False,,NOM|SANTE,0.07
+94,Hybride,1,sante,0,NOM|SANTE,True,PERSON,SANTE,5.36
+95,Presidio natif,0,non_sensible,1,,False,,,6.87
+95,Règles M1,0,non_sensible,1,,False,,,0.05
+95,Hybride,0,non_sensible,1,,False,,,4.32
+96,Presidio natif,1,donnees_clients,0,NOM|ADRESSE|TEL,True,LOCATION|PERSON|PHONE_NUMBER,,7.79
+96,Règles M1,1,donnees_clients,0,NOM|ADRESSE|TEL,True,telephone,NOM|ADRESSE,0.09
+96,Hybride,1,donnees_clients,0,NOM|ADRESSE|TEL,True,PERSON|PHONE_NUMBER|telephone,ADRESSE,7.51
+97,Presidio natif,1,finance,0,IBAN,True,IBAN_CODE|ORGANIZATION,,8.42
+97,Règles M1,1,finance,0,IBAN,True,iban,,0.19
+97,Hybride,1,finance,0,IBAN,True,IBAN_CODE|iban,,6.97
+98,Presidio natif,1,identite,0,NOM|DATE_NAISSANCE|NIR,True,DATE_TIME|LOCATION|PERSON,NIR,10.34
+98,Règles M1,1,identite,0,NOM|DATE_NAISSANCE|NIR,True,nir,NOM|DATE_NAISSANCE,0.1
+98,Hybride,1,identite,0,NOM|DATE_NAISSANCE|NIR,True,PERSON|nir,DATE_NAISSANCE,7.13
+99,Presidio natif,1,finance,0,IBAN,True,IBAN_CODE|LOCATION|ORGANIZATION|PERSON,,5.91
+99,Règles M1,1,finance,0,IBAN,True,iban,,0.3
+99,Hybride,1,finance,0,IBAN,True,IBAN_CODE|PERSON|iban,,6.3
+100,Presidio natif,0,non_sensible,1,,True,PERSON,,5.8
+100,Règles M1,0,non_sensible,1,,False,,,0.05
+100,Hybride,0,non_sensible,1,,True,PERSON,,5.01
+101,Presidio natif,1,identite,0,NOM|DATE_NAISSANCE|TEL,True,DATE_TIME|PERSON|PHONE_NUMBER,,8.92
+101,Règles M1,1,identite,0,NOM|DATE_NAISSANCE|TEL,True,telephone,NOM|DATE_NAISSANCE,0.08
+101,Hybride,1,identite,0,NOM|DATE_NAISSANCE|TEL,True,PERSON|PHONE_NUMBER|telephone,DATE_NAISSANCE,7.51
+102,Presidio natif,0,non_sensible,1,,True,IP_ADDRESS|URL,,5.45
+102,Règles M1,0,non_sensible,1,,False,,,0.04
+102,Hybride,0,non_sensible,1,,False,,,3.94
+103,Presidio natif,0,non_sensible,1,,True,PERSON,,4.91
+103,Règles M1,0,non_sensible,1,,False,,,0.04
+103,Hybride,0,non_sensible,1,,True,PERSON,,4.86
+104,Presidio natif,1,donnees_clients,0,NOM|EMAIL|DONNEES_COMMERCIALES,True,EMAIL_ADDRESS|ORGANIZATION|PERSON|URL,DONNEES_COMMERCIALES,9.82
+104,Règles M1,1,donnees_clients,0,NOM|EMAIL|DONNEES_COMMERCIALES,True,email,NOM|DONNEES_COMMERCIALES,0.09
+104,Hybride,1,donnees_clients,0,NOM|EMAIL|DONNEES_COMMERCIALES,True,EMAIL_ADDRESS|PERSON|email,DONNEES_COMMERCIALES,9.46
+105,Presidio natif,1,donnees_clients,0,NOM|EMAIL|TEL,True,EMAIL_ADDRESS|PHONE_NUMBER|URL,NOM,13.36
+105,Règles M1,1,donnees_clients,0,NOM|EMAIL|TEL,True,email|telephone,NOM,0.14
+105,Hybride,1,donnees_clients,0,NOM|EMAIL|TEL,True,EMAIL_ADDRESS|PHONE_NUMBER|email|telephone,NOM,8.65
+106,Presidio natif,0,non_sensible,1,,True,PERSON,,8.52
+106,Règles M1,0,non_sensible,1,,True,mot_de_passe,,0.19
+106,Hybride,0,non_sensible,1,,True,PERSON|mot_de_passe,,4.08
+107,Presidio natif,1,finance,0,IBAN,True,IBAN_CODE|PERSON,,5.89
+107,Règles M1,1,finance,0,IBAN,True,iban,,0.09
+107,Hybride,1,finance,0,IBAN,True,IBAN_CODE|PERSON|iban,,7.08
+108,Presidio natif,0,non_sensible,1,,True,LOCATION,,5.25
+108,Règles M1,0,non_sensible,1,,False,,,0.04
+108,Hybride,0,non_sensible,1,,False,,,3.88
+109,Presidio natif,1,donnees_clients,0,TEL,True,PHONE_NUMBER,,9.05
+109,Règles M1,1,donnees_clients,0,TEL,True,telephone,,0.09
+109,Hybride,1,donnees_clients,0,TEL,True,PHONE_NUMBER|telephone,,6.88
+110,Presidio natif,0,non_sensible,1,,False,,,8.22
+110,Règles M1,0,non_sensible,1,,False,,,0.08
+110,Hybride,0,non_sensible,1,,False,,,4.82
+111,Presidio natif,0,non_sensible,1,,False,,,6.2
+111,Règles M1,0,non_sensible,1,,False,,,0.08
+111,Hybride,0,non_sensible,1,,False,,,5.34
+112,Presidio natif,1,secret_technique,0,CLE_API,True,LOCATION,CLE_API,6.7
+112,Règles M1,1,secret_technique,0,CLE_API,False,,CLE_API,0.07
+112,Hybride,1,secret_technique,0,CLE_API,False,,CLE_API,5.15
+113,Presidio natif,1,identite,0,NOM|NIR|DATE_NAISSANCE,True,DATE_TIME|ORGANIZATION|PERSON,NIR,11.52
+113,Règles M1,1,identite,0,NOM|NIR|DATE_NAISSANCE,True,nir,NOM|DATE_NAISSANCE,0.09
+113,Hybride,1,identite,0,NOM|NIR|DATE_NAISSANCE,True,PERSON|nir,DATE_NAISSANCE,8.32
+114,Presidio natif,1,identite,0,NOM|DATE_NAISSANCE|ADRESSE,True,DATE_TIME|LOCATION|PERSON,,8.87
+114,Règles M1,1,identite,0,NOM|DATE_NAISSANCE|ADRESSE,False,,NOM|DATE_NAISSANCE|ADRESSE,0.07
+114,Hybride,1,identite,0,NOM|DATE_NAISSANCE|ADRESSE,True,PERSON,DATE_NAISSANCE|ADRESSE,6.51
+115,Presidio natif,0,non_sensible,1,,False,,,6.17
+115,Règles M1,0,non_sensible,1,,False,,,0.11
+115,Hybride,0,non_sensible,1,,False,,,4.64
+116,Presidio natif,1,sante,0,NOM|SANTE,True,PERSON,SANTE,8.82
+116,Règles M1,1,sante,0,NOM|SANTE,False,,NOM|SANTE,0.07
+116,Hybride,1,sante,0,NOM|SANTE,True,PERSON,SANTE,5.64
+117,Presidio natif,0,non_sensible,1,,False,,,7.93
+117,Règles M1,0,non_sensible,1,,False,,,0.07
+117,Hybride,0,non_sensible,1,,False,,,5.02
+118,Presidio natif,1,secret_technique,0,MOT_DE_PASSE,True,ORGANIZATION,MOT_DE_PASSE,8.65
+118,Règles M1,1,secret_technique,0,MOT_DE_PASSE,False,,MOT_DE_PASSE,0.07
+118,Hybride,1,secret_technique,0,MOT_DE_PASSE,False,,MOT_DE_PASSE,5.26
+119,Presidio natif,1,identite,0,NOM|DATE_NAISSANCE|ADRESSE,True,DATE_TIME|LOCATION|PERSON,,6.22
+119,Règles M1,1,identite,0,NOM|DATE_NAISSANCE|ADRESSE,False,,NOM|DATE_NAISSANCE|ADRESSE,0.06
+119,Hybride,1,identite,0,NOM|DATE_NAISSANCE|ADRESSE,True,PERSON,DATE_NAISSANCE|ADRESSE,6.39
+120,Presidio natif,1,secret_technique,0,MOT_DE_PASSE|IP_INTERNE,True,IP_ADDRESS|LOCATION|PHONE_NUMBER,MOT_DE_PASSE,12.39
+120,Règles M1,1,secret_technique,0,MOT_DE_PASSE|IP_INTERNE,False,,MOT_DE_PASSE|IP_INTERNE,0.06
+120,Hybride,1,secret_technique,0,MOT_DE_PASSE|IP_INTERNE,True,PHONE_NUMBER,MOT_DE_PASSE|IP_INTERNE,7.46
+121,Presidio natif,1,secret_technique,0,MOT_DE_PASSE|SECRET,True,LOCATION,MOT_DE_PASSE|SECRET,7.45
+121,Règles M1,1,secret_technique,0,MOT_DE_PASSE|SECRET,True,mot_de_passe,,0.09
+121,Hybride,1,secret_technique,0,MOT_DE_PASSE|SECRET,True,mot_de_passe,,5.41
+122,Presidio natif,1,identite,0,NOM|NIR|DATE_NAISSANCE,True,DATE_TIME|PERSON,NIR,7.31
+122,Règles M1,1,identite,0,NOM|NIR|DATE_NAISSANCE,True,nir,NOM|DATE_NAISSANCE,0.09
+122,Hybride,1,identite,0,NOM|NIR|DATE_NAISSANCE,True,PERSON|nir,DATE_NAISSANCE,6.97
+123,Presidio natif,0,non_sensible,1,,False,,,7.55
+123,Règles M1,0,non_sensible,1,,False,,,0.06
+123,Hybride,0,non_sensible,1,,False,,,5.44
+124,Presidio natif,1,secret_technique,0,MOT_DE_PASSE,True,LOCATION|URL,MOT_DE_PASSE,8.22
+124,Règles M1,1,secret_technique,0,MOT_DE_PASSE,False,,MOT_DE_PASSE,0.07
+124,Hybride,1,secret_technique,0,MOT_DE_PASSE,False,,MOT_DE_PASSE,4.88
+125,Presidio natif,1,secret_technique,0,TOKEN,False,,TOKEN,8.07
+125,Règles M1,1,secret_technique,0,TOKEN,True,cle_api,,0.19
+125,Hybride,1,secret_technique,0,TOKEN,True,cle_api,,5.96
+126,Presidio natif,0,non_sensible,1,,True,ORGANIZATION,,4.35
+126,Règles M1,0,non_sensible,1,,False,,,0.04
+126,Hybride,0,non_sensible,1,,False,,,3.95
+127,Presidio natif,1,identite,0,NOM|PASSEPORT,True,LOCATION|PERSON,PASSEPORT,10.03
+127,Règles M1,1,identite,0,NOM|PASSEPORT,False,,NOM|PASSEPORT,0.06
+127,Hybride,1,identite,0,NOM|PASSEPORT,True,PERSON,PASSEPORT,6.82
+128,Presidio natif,1,finance,0,CARTE,True,PHONE_NUMBER,CARTE,10.14
+128,Règles M1,1,finance,0,CARTE,True,carte_bancaire,,0.09
+128,Hybride,1,finance,0,CARTE,True,PHONE_NUMBER|carte_bancaire,,7.65
+129,Presidio natif,1,finance,0,NOM|IBAN,True,IBAN_CODE|LOCATION|PERSON,,9.47
+129,Règles M1,1,finance,0,NOM|IBAN,True,iban,NOM,0.11
+129,Hybride,1,finance,0,NOM|IBAN,True,IBAN_CODE|PERSON|iban,,7.72
+130,Presidio natif,0,non_sensible,1,,False,,,4.22
+130,Règles M1,0,non_sensible,1,,False,,,0.05
+130,Hybride,0,non_sensible,1,,False,,,3.43
+131,Presidio natif,0,non_sensible,0,,False,,,4.69
+131,Règles M1,0,non_sensible,0,,False,,,0.07
+131,Hybride,0,non_sensible,0,,False,,,5.04
+132,Presidio natif,0,non_sensible,1,,False,,,8.22
+132,Règles M1,0,non_sensible,1,,False,,,0.06
+132,Hybride,0,non_sensible,1,,False,,,5.42
+133,Presidio natif,0,non_sensible,1,,False,,,6.43
+133,Règles M1,0,non_sensible,1,,False,,,0.05
+133,Hybride,0,non_sensible,1,,False,,,3.9
+134,Presidio natif,0,non_sensible,0,,False,,,6.27
+134,Règles M1,0,non_sensible,0,,False,,,0.09
+134,Hybride,0,non_sensible,0,,False,,,4.41
+135,Presidio natif,1,secret_technique,0,MOT_DE_PASSE,True,PERSON,MOT_DE_PASSE,7.03
+135,Règles M1,1,secret_technique,0,MOT_DE_PASSE,False,,MOT_DE_PASSE,0.07
+135,Hybride,1,secret_technique,0,MOT_DE_PASSE,True,PERSON,MOT_DE_PASSE,6.51
+136,Presidio natif,0,non_sensible,1,,True,PERSON,,4.85
+136,Règles M1,0,non_sensible,1,,False,,,0.04
+136,Hybride,0,non_sensible,1,,True,PERSON,,3.88
+137,Presidio natif,1,finance,0,CARTE,True,DATE_TIME,CARTE,8.12
+137,Règles M1,1,finance,0,CARTE,True,carte_bancaire,,0.1
+137,Hybride,1,finance,0,CARTE,True,carte_bancaire,,6.29
+138,Presidio natif,1,finance,0,IBAN,True,IBAN_CODE|LOCATION|ORGANIZATION,,7.49
+138,Règles M1,1,finance,0,IBAN,True,iban,,0.1
+138,Hybride,1,finance,0,IBAN,True,IBAN_CODE|iban,,6.54
+139,Presidio natif,1,sante,0,NOM|SANTE,True,PERSON,SANTE,6.59
+139,Règles M1,1,sante,0,NOM|SANTE,False,,NOM|SANTE,0.14
+139,Hybride,1,sante,0,NOM|SANTE,True,PERSON,SANTE,7.81
+140,Presidio natif,0,non_sensible,0,,False,,,4.39
+140,Règles M1,0,non_sensible,0,,False,,,0.04
+140,Hybride,0,non_sensible,0,,False,,,3.45
+141,Presidio natif,0,non_sensible,1,,False,,,6.06
+141,Règles M1,0,non_sensible,1,,False,,,0.05
+141,Hybride,0,non_sensible,1,,False,,,5.58
+142,Presidio natif,1,secret_technique,0,MOT_DE_PASSE|IP_INTERNE,True,DATE_TIME|IP_ADDRESS,MOT_DE_PASSE,5.78
+142,Règles M1,1,secret_technique,0,MOT_DE_PASSE|IP_INTERNE,False,,MOT_DE_PASSE|IP_INTERNE,0.07
+142,Hybride,1,secret_technique,0,MOT_DE_PASSE|IP_INTERNE,False,,MOT_DE_PASSE|IP_INTERNE,5.03
+143,Presidio natif,1,finance,0,NOM|IBAN,True,IBAN_CODE|PERSON,,8.29
+143,Règles M1,1,finance,0,NOM|IBAN,True,iban,NOM,0.11
+143,Hybride,1,finance,0,NOM|IBAN,True,IBAN_CODE|PERSON|iban,,6.58
+144,Presidio natif,1,finance,0,NOM|SALAIRE,True,PERSON,SALAIRE,6.78
+144,Règles M1,1,finance,0,NOM|SALAIRE,False,,NOM|SALAIRE,0.06
+144,Hybride,1,finance,0,NOM|SALAIRE,True,PERSON,SALAIRE,5.22
+145,Presidio natif,0,non_sensible,1,,True,LOCATION|PERSON,,6.1
+145,Règles M1,0,non_sensible,1,,False,,,0.05
+145,Hybride,0,non_sensible,1,,True,PERSON,,4.47
+146,Presidio natif,0,non_sensible,1,,False,,,3.94
+146,Règles M1,0,non_sensible,1,,False,,,0.04
+146,Hybride,0,non_sensible,1,,False,,,3.7
+147,Presidio natif,1,sante,0,SANTE,True,PERSON,SANTE,6.79
+147,Règles M1,1,sante,0,SANTE,False,,SANTE,0.06
+147,Hybride,1,sante,0,SANTE,True,PERSON,SANTE,4.52
+148,Presidio natif,0,non_sensible,1,,True,IBAN_CODE|LOCATION|ORGANIZATION,,7.1
+148,Règles M1,0,non_sensible,1,,True,iban,,0.09
+148,Hybride,0,non_sensible,1,,True,IBAN_CODE|iban,,5.54
+149,Presidio natif,1,identite,0,NOM|ADRESSE|TEL,True,LOCATION|PERSON|PHONE_NUMBER,,9.37
+149,Règles M1,1,identite,0,NOM|ADRESSE|TEL,True,telephone,NOM|ADRESSE,0.09
+149,Hybride,1,identite,0,NOM|ADRESSE|TEL,True,PERSON|PHONE_NUMBER|telephone,ADRESSE,6.71
+150,Presidio natif,1,finance,0,NOM|SALAIRE|IBAN,True,IBAN_CODE|LOCATION|PERSON,SALAIRE,9.47
+150,Règles M1,1,finance,0,NOM|SALAIRE|IBAN,True,iban,NOM|SALAIRE,0.23
+150,Hybride,1,finance,0,NOM|SALAIRE|IBAN,True,IBAN_CODE|PERSON|iban,SALAIRE,9.16

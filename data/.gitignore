@@ -1,0 +1,7 @@
+# Fichiers lourds ou recréés localement (voir data/README.md)
+raw/
+processed/
+.cache/
+*.joblib
+.ipynb_checkpoints/
+__pycache__/
