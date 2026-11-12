@@ -1,0 +1,25 @@
+/* Charte CyberSentinel (dossier de présentation) */
+:root {
+  --bleu-nuit: #0a1a33;
+  --turquoise: #2ee6d6;
+  --rouge-alerte: #ff4d6d;
+
+  --texte: var(--bleu-nuit);
+  --texte-secondaire: #4a5a75;
+  --fond: #f4f6fa;
+  --blanc: #ffffff;
+  --bordure: #dce2ec;
+
+  font-family: Inter, system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  color: var(--texte);
+  background: var(--fond);
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: var(--bleu-nuit);
+}

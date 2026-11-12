@@ -1,0 +1,4 @@
+﻿,Rappel,Rappel critique,Fausses alertes,Fausses alertes (pièges),Temps médian (ms),Temps p95 (ms)
+Presidio natif,0.9412,0.3,0.4,0.4545,8.0237,11.5185
+Règles M1,0.6,0.725,0.0769,0.0909,0.069,0.1471
+Hybride,0.8824,0.725,0.1692,0.2,5.4375,8.3173

@@ -16,7 +16,7 @@ CyberSentinel se place entre les postes de travail et Internet. Il lit ce qui pa
 
 | Module | Ce qu'il fait | Statut |
 | --- | --- | --- |
-| Socle | Proxy, réception des événements, base PostgreSQL, tableau de bord | Obligatoire |
+| Socle | Proxy, API Node.js, base MySQL, tableau de bord | Obligatoire |
 | 1. Fuites vers les IA | Repère les données sensibles dans les prompts (IBAN, n° de sécu, clés API, données clients) et les bloque ou les masque | Obligatoire · démo phare |
 | 2. Paquets inventés par les IA | Vérifie chaque `pip install` / `npm install` : paquet récent, peu téléchargé, nom proche d'un paquet connu | Obligatoire |
 | 3. Surveillance des agents IA | Surveille les outils appelés par un agent IA (fichiers, mails, web) pour repérer une exfiltration | Bonus |
@@ -31,11 +31,13 @@ PC de test ──► Proxy (mitmproxy) ──► Internet (ChatGPT, Gemini, PyPI
                     │
                     │  règles + modèle ML → bloquer / masquer / laisser passer
                     ▼
-               API (FastAPI) ──► Base PostgreSQL
+               API (Node.js) ──► Base MySQL
                     │
                     ▼
           Tableau de bord (React)
 ```
+
+Détails : `docs/architecture.md`.
 
 ## Structure du dépôt
 
@@ -44,7 +46,7 @@ PC de test ──► Proxy (mitmproxy) ──► Internet (ChatGPT, Gemini, PyPI
 | `proxy/` | Addon mitmproxy qui intercepte et analyse le trafic | Cyber + Nolan |
 | `rules/` | Règles de détection (expressions régulières, listes) | Cyber |
 | `data/` | Jeu de prompts étiqueté, notebooks, modèle ML | Data/IA |
-| `backend/` | API FastAPI et base de données | Dev |
+| `backend/` | API Node.js (Express) et base MySQL | Dev |
 | `frontend/` | Tableau de bord React | Dev |
 | `docs/` | Documentation, RGPD, comptes rendus, Kanban | Tout le monde |
 

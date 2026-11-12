@@ -1,0 +1,139 @@
+.liste {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.liste h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.discret {
+  margin: 4px 0 0;
+  color: var(--texte-secondaire);
+}
+
+/* Barre de filtres */
+.filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--blanc);
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+}
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 160px;
+}
+
+.champ-large {
+  flex: 2 1 260px;
+}
+
+.champ label {
+  font-size: 13px;
+  color: var(--texte-secondaire);
+}
+
+.champ input,
+.champ select {
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid #c4cddb;
+  border-radius: 6px;
+  background: var(--blanc);
+  color: var(--texte);
+  font: inherit;
+}
+
+/* Tableau */
+.tableau-cadre {
+  overflow-x: auto;
+  background: var(--blanc);
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+th {
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texte-secondaire);
+  background: #f8fafc;
+  border-bottom: 1px solid var(--bordure);
+}
+
+td {
+  padding: 11px 16px;
+  border-bottom: 1px solid #eef1f6;
+  vertical-align: top;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+.mono {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.extrait {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--texte-secondaire);
+}
+
+/* Badges de décision */
+.badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border: 1px solid;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-bloquer {
+  color: #a3122f;
+  background: #ffe8ec;
+  border-color: var(--rouge-alerte);
+}
+
+.badge-masquer {
+  color: #0a5953;
+  background: #dffaf7;
+  border-color: var(--turquoise);
+}
+
+.badge-alerter {
+  color: var(--bleu-nuit);
+  background: #eef1f6;
+  border-color: #c4cddb;
+}
+
+.vide {
+  margin: 0;
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--texte-secondaire);
+}

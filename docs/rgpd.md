@@ -20,7 +20,7 @@ CyberSentinel lit le contenu des messages envoyés aux IA pour y chercher des do
 | --- | --- | --- |
 | Prompt complet | **Non** | Analysé en mémoire par le proxy, jamais écrit sur disque ni envoyé à l'API |
 | Donnée sensible trouvée (l'IBAN, la clé…) | **Non en clair** | Seulement un extrait masqué (`FR76 **** … 189`) produit par `detect()` |
-| Événement (date, site d'IA, règle, type de donnée, score, action, extrait masqué) | Oui | Base PostgreSQL de test |
+| Événement (date, site d'IA, règle, type de donnée, score, action, extrait masqué) | Oui | Base MySQL de test |
 | Identité de l'utilisateur | Pseudonymisée | Identifiant du poste de test (ex. `pc-test-01`), pas de nom |
 | Logs mitmproxy (`mitmweb`, fichiers `.flow`) | Non conservés | Les captures pour la doc sont faites avec de fausses données, puis supprimées |
 

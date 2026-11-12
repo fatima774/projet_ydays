@@ -1,0 +1,10 @@
+# Environnement Data/IA (notebook data/presidio_test.ipynb et scripts data/scripts/)
+# Après installation : python -m spacy download fr_core_news_lg
+presidio-analyzer
+presidio-anonymizer
+spacy
+pandas
+pyyaml
+jupyter
+huggingface_hub
+pyarrow

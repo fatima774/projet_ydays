@@ -1,0 +1,41 @@
+/* Barre du haut en bleu nuit */
+.barre {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 56px;
+  padding: 0 24px;
+  background: var(--bleu-nuit);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--blanc);
+}
+
+.barre nav a {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 0 12px;
+  color: #b7c3d6;
+  text-decoration: none;
+}
+
+.barre nav a[aria-current='page'] {
+  color: var(--blanc);
+  font-weight: 600;
+  box-shadow: inset 0 -3px 0 var(--turquoise);
+}
+
+/* Zone principale */
+.contenu {
+  box-sizing: border-box;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+}
