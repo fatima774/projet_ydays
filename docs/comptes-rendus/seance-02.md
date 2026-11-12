@@ -1,6 +1,6 @@
 # Compte rendu, séance 2 (12 novembre 2026)
 
-Rédigé par Elias, d'après le point d'Arno après la séance 2 et l'état de `main` en fin de séance (après fusion des PR #65 à #71).
+Rédigé par Elias, d'après le point d'Arno après la séance 2 et l'état de `main` et du Kanban GitHub en fin de séance (PR #58 à #73).
 
 ## Objectif de la journée
 
@@ -48,12 +48,26 @@ Toutes les briques du module M1 existent, mais elles ne sont pas encore **branch
 | Modèle baseline TF-IDF | Nolan | 🟡 Fait, mais faible (rappel 41 %, fausses alertes 5 %) | `data/baseline.py`, `docs/detect.md` |
 | Test Presidio + métriques cibles | Imad | ✅ Fait | `docs/choix-modele-metriques.md` |
 | Charte d'équipe, guide d'annotation, Kanban | Elias | ✅ Fait | `docs/` |
+| Présentations séance 2 et séance 3 (pitch, proxy, maquettes, équipe, rétroplanning) | Elias | ✅ Fait (PR #69 et #73) | `docs/presentations/` |
 | Format d'événement | Elias | ✅ Fait, les 4 points ont été tranchés côté API | `docs/format-evenement.md`, `docs/api.md` |
 | Maquettes des 4 écrans | Fati | ✅ Fait | `docs/maquettes/` |
 | Front React + Vite : page « liste des alertes » | Fati | ✅ Faite, lit `GET /alerts` toutes les 10 s (PR #71) ; les 3 autres écrans restent à coder | `frontend/` |
 | API Node.js (Express) + base MySQL + Docker Compose | Fati (cartes de Yarkin) | ✅ Fait, routes testées | `backend/`, `docs/api.md` |
 | Schéma d'architecture | Fati (carte de Yarkin) | ✅ Fait | `docs/architecture.md` |
 | Règles M2 (4 règles : très récent, peu téléchargé, nom proche, inexistant) | Kiliann | 🟡 Règles écrites, exemples à remplir | `rules/m2.yaml` |
+
+## Kanban en fin de séance
+
+**34 cartes sur 36 sont fermées** (#22 à #57). Deux restent ouvertes :
+
+| Carte | Pourquoi elle est ouverte |
+| --- | --- |
+| #24 · Installer les outils + un commit chacun (tous) | Yarkin, absent, n'a pas encore de commit |
+| #51 · Étiqueter les prompts avec le guide (Nolan) | Le travail est fait (`data/prompts_v1.csv` suit le guide depuis la séance 2) : la carte est à fermer par Nolan |
+
+## Points à vérifier
+
+- **PR #72 (Arno, « README du proxy à jour »)** : elle remplace `proxy/README.md` par le README de l'interpréteur PHP, sans rapport avec le projet. Elle est aussi en conflit avec `main`. À corriger par Arno avant de la fusionner ; le README du proxy dans `main` est déjà à jour avec `cybersentinel.py`.
 
 ## Mesures de la détection
 
@@ -76,7 +90,7 @@ Points faibles des règles seules, sur cette première version (`data/resultats/
 - **Format d'événement** (`docs/api.md`) : champs en français ; `requete_id` ajouté (facultatif, un événement par donnée détectée) ; `source.module` est un champ à part ; une colonne par champ dans la table `evenements`.
 - **Dossiers** : `backend/` et `frontend/` sont gardés.
 - **Sites d'IA** : ChatGPT sans compte passe par `/unauth-mweb/conversation/updates` ; Gemini envoie le prompt à `geminiweb-pa.clients6.google.com` (l'ancien chemin `StreamGenerate` est abandonné).
-- **Fin de séance** : tout est fusionné dans `main` (PR #65 à #71). L'ancien prototype `proxy/addon.py` est supprimé, remplacé par `proxy/cybersentinel.py`.
+- **Fin de séance** : tout est fusionné dans `main` (PR #58 à #71, puis #73), sauf la PR #72 (voir les points à vérifier). L'ancien prototype `proxy/addon.py` est supprimé, remplacé par `proxy/cybersentinel.py`.
 
 ## Ce qui manque pour une démo
 
