@@ -4,16 +4,28 @@
 # Le proxy n'analyse QUE les requêtes vers ces domaines (le reste du
 # trafic passe sans être lu : voir docs/rgpd.md).
 #
-#   domaines   un hôte correspond s'il est égal au domaine ou s'il
-#              en est un sous-domaine (ex. xxx.chatgpt.com)
-#   chemins    début du chemin des requêtes qui portent le prompt.
-#              « à confirmer » = à vérifier avec une capture mitmproxy
-#              (les sites changent souvent leurs URL internes).
-#   format     json | form (formulaire encodé) | websocket
-#   priorite   1 = démo / à couvrir d'abord, 2 = ensuite, 3 = plus tard
+#   domaines    un hôte correspond s'il est égal au domaine ou s'il en
+#               est un sous-domaine : host == d or host.endswith("." + d)
+#   chemins     début du chemin des requêtes POST qui portent le prompt
+#   format      form | json | protobuf | websocket
+#   extraction  comment récupérer le texte à passer à detect() :
+#                 champ_form       -> flow.request.urlencoded_form[champ_prompt]
+#                 champ_json       -> champ_prompt dans le JSON du corps
+#                 textes_lisibles  -> morceaux de texte lisibles du corps binaire
+#                 base64_textes    -> décoder en base64 les champs reqN___data__,
+#                                     puis morceaux de texte lisibles
+#                 corps_entier     -> secours : tout le corps (format non confirmé)
+#   priorite    1 = démo / à couvrir d'abord, 2 = ensuite, 3 = plus tard
+#   statut      confirmé (capture du 12/11/2026) | documenté (doc officielle)
+#               | à confirmer | chemin à trouver
+#
+# Captures : Arno, 12/11/2026, Firefox 152, mitmproxy 12.3.1
+# (--set http2=false), prompt de test « TESTCYBER bonjour ».
+# Règle d'or : ne jamais analyser le corps brut avec get_text(),
+# toujours décoder selon le format du site.
 # =====================================================================
 
-version: 1
+version: 2
 
 sites:
 
@@ -21,50 +33,85 @@ sites:
   - id: chatgpt
     nom: ChatGPT (OpenAI)
     domaines: [chatgpt.com, chat.openai.com]
-    chemins: ["/backend-api/conversation", "/backend-api/f/conversation"]
-    format: json
-    champ_prompt: "messages[].content.parts[]"
+    chemins: ["/unauth-mweb/conversation/updates"]
+    format: form
+    extraction: champ_form
+    champ_prompt: prompt
     priorite: 1
-    statut: à confirmer par la capture d'Arno
+    statut: confirmé (sans compte)
+    a_verifier:
+      # mode connecté non capturé : anciens chemins connus, format JSON
+      chemins: ["/backend-api/conversation", "/backend-api/f/conversation"]
+      format: json
+      champ_prompt: "messages[].content.parts[]"
 
   - id: gemini
     nom: Gemini (Google)
-    domaines: [gemini.google.com]
-    chemins: ["/_/BardChatUi/data/"]
-    format: form          # paramètre f.req = JSON imbriqué dans un formulaire
+    domaines: [geminiweb-pa.clients6.google.com, gemini.google.com]
+    chemins: ["/v1/processSession"]   # WebChannel Google : les POST envoient, les GET attendent
+    format: form                      # champs count, ofs, req0___data__, req1___data__…
+    extraction: base64_textes         # reqN___data__ = protobuf encodé en base64
+    champ_prompt: "reqN___data__"
     priorite: 1
-    statut: à confirmer
+    statut: confirmé (sans compte)
+    note: >
+      Le prompt est dans un petit POST (~100 octets). Les gros POST
+      (2,7 à 3,9 ko) ouvrent la session (identifiants, jeton anti-robot).
+      Aucun StreamGenerate vu sur gemini.google.com : ancien chemin abandonné.
+      Le texte a été vu deux fois : Gemini l'envoie peut-être pendant la
+      frappe, avant Entrée (à vérifier).
 
   - id: claude
     nom: Claude (Anthropic)
     domaines: [claude.ai]
-    chemins: ["/api/organizations/"]   # .../chat_conversations/<id>/completion
-    format: json
-    champ_prompt: "prompt"
+    chemins: ["/claudeai-rpc/"]       # .../ConversationService/PerformAction
+    format: protobuf                  # application/proto, sans base64
+    extraction: textes_lisibles
     priorite: 1
-    statut: à confirmer
+    statut: confirmé (connecté, pas utilisable sans compte)
+    note: >
+      Le prompt est en UTF-8 clair juste après les uuid de conversation et
+      de message. StreamTimeline contient le texte dans la RÉPONSE, pas
+      dans la requête : on ne l'analyse pas.
 
   - id: mistral
     nom: Le Chat (Mistral AI)
     domaines: [chat.mistral.ai]
-    chemins: []
+    chemins: ["/api/chat"]
     format: json
+    extraction: champ_json
+    champ_prompt: "messageInput[].text"
+    champ_fichiers: "messageFiles[]"  # fichiers joints, à surveiller aussi
     priorite: 1
-    statut: chemin à trouver
+    statut: confirmé (sans compte)
+    note: >
+      Sans compte, le prompt part AVANT la demande de connexion
+      (réponse 200) : la donnée quitte le poste même si l'utilisateur
+      ne se connecte jamais.
 
   - id: copilot
     nom: Microsoft Copilot
-    domaines: [copilot.microsoft.com, copilot.cloud.microsoft, m365.cloud.microsoft]
-    chemins: []
-    format: websocket     # le prompt passe probablement par un WebSocket : addon à adapter
+    domaines: [turbo.microsoft.com, copilot.microsoft.com, copilot.cloud.microsoft, m365.cloud.microsoft]
+    chemins: ["/pe/api/artifacts/encodeArtifactUnauthenticated"]
+    format: json
+    extraction: champ_json
+    champ_prompt: content
     priorite: 1
-    statut: chemin à trouver
+    statut: confirmé (sans compte, avant connexion)
+    note: >
+      Comme Mistral : le prompt est envoyé à Microsoft avant la demande
+      de connexion. Le chat connecté passe probablement par un WebSocket
+      sur copilot.microsoft.com (à capturer avec le filtre ~websocket).
+    a_verifier:
+      format: websocket
+      extraction: corps_entier
 
   - id: deepseek
     nom: DeepSeek
     domaines: [chat.deepseek.com]
     chemins: []
     format: json
+    extraction: corps_entier
     priorite: 2
     statut: chemin à trouver
 
@@ -73,6 +120,7 @@ sites:
     domaines: [perplexity.ai, www.perplexity.ai]
     chemins: []
     format: json
+    extraction: corps_entier
     priorite: 2
     statut: chemin à trouver
 
@@ -81,6 +129,7 @@ sites:
     domaines: [grok.com]
     chemins: []
     format: json
+    extraction: corps_entier
     priorite: 3
     statut: chemin à trouver
 
@@ -89,6 +138,7 @@ sites:
     domaines: [meta.ai, www.meta.ai]
     chemins: []
     format: json
+    extraction: corps_entier
     priorite: 3
     statut: chemin à trouver
 
@@ -97,6 +147,7 @@ sites:
     domaines: [poe.com]
     chemins: []
     format: json
+    extraction: corps_entier
     priorite: 3
     statut: chemin à trouver
 
@@ -105,6 +156,7 @@ sites:
     domaines: [huggingface.co]
     chemins: ["/chat/"]
     format: json
+    extraction: corps_entier
     priorite: 3
     statut: à confirmer
 
@@ -114,6 +166,7 @@ sites:
     domaines: [api.openai.com]
     chemins: ["/v1/chat/completions", "/v1/responses"]
     format: json
+    extraction: champ_json
     champ_prompt: "messages[].content | input"
     priorite: 2
     statut: documenté
@@ -123,6 +176,7 @@ sites:
     domaines: [api.anthropic.com]
     chemins: ["/v1/messages"]
     format: json
+    extraction: champ_json
     champ_prompt: "messages[].content"
     priorite: 2
     statut: documenté
@@ -132,6 +186,7 @@ sites:
     domaines: [generativelanguage.googleapis.com]
     chemins: ["/v1beta/models/", "/v1/models/"]
     format: json
+    extraction: champ_json
     champ_prompt: "contents[].parts[].text"
     priorite: 2
     statut: documenté
@@ -141,6 +196,7 @@ sites:
     domaines: [api.mistral.ai]
     chemins: ["/v1/chat/completions"]
     format: json
+    extraction: champ_json
     champ_prompt: "messages[].content"
     priorite: 2
     statut: documenté
@@ -150,5 +206,6 @@ sites:
     domaines: [api.githubcopilot.com, copilot-proxy.githubusercontent.com]
     chemins: []
     format: json
+    extraction: corps_entier
     priorite: 3
     statut: à confirmer (le code envoyé par l'IDE peut contenir des secrets)
