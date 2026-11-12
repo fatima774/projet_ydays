@@ -137,3 +137,61 @@ tbody tr:hover {
   text-align: center;
   color: var(--texte-secondaire);
 }
+
+/* En-tête : titre à gauche, actualisation à droite */
+.liste-entete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.actualisation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.actualisation .discret {
+  margin: 0;
+  font-size: 13px;
+}
+
+.bouton {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid #c4cddb;
+  border-radius: 6px;
+  background: var(--blanc);
+  color: var(--texte);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.bouton:hover {
+  border-color: var(--bleu-nuit);
+}
+
+/* Messages : erreur de connexion, nouvelles alertes */
+.message {
+  margin: 0;
+  padding: 10px 14px;
+  border: 1px solid;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.message-erreur {
+  color: #a3122f;
+  background: #ffe8ec;
+  border-color: var(--rouge-alerte);
+}
+
+.message-info {
+  color: #0a5953;
+  background: #dffaf7;
+  border-color: var(--turquoise);
+}
