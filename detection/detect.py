@@ -16,8 +16,23 @@ from pathlib import Path
 RACINE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(RACINE / "rules"))
 
-from m1_detect import detect as _detect_regles          # noqa: E402  (règles d'Aloïs)
-from m1_detect import mask_text as _mask_text_regles    # noqa: E402
+try:
+    from m1_detect import detect as _detect_regles          # règles d'Aloïs
+    from m1_detect import mask_text as _mask_text_regles
+    REGLES_DISPONIBLES = True
+except ImportError:
+    # rules/m1_detect.py pas encore dans le dépôt : on tourne sans les règles.
+    import warnings
+    warnings.warn("rules/m1_detect.py introuvable : detect() tourne sans les règles d'Aloïs")
+    REGLES_DISPONIBLES = False
+
+    def _detect_regles(texte: str) -> list[dict]:
+        return []
+
+    def _mask_text_regles(texte: str, findings: list[dict]) -> str:
+        for f in sorted(findings, key=lambda f: f["debut"], reverse=True):
+            texte = texte[:f["debut"]] + f.get("extrait_masque", "") + texte[f["fin"]:]
+        return texte
 
 __all__ = ["detect", "mask_text", "action_finale", "detect_modele", "VERSION"]
 
@@ -136,14 +151,14 @@ if __name__ == "__main__":
         lignes = list(csv.DictReader(f))
 
     t0 = time.perf_counter()
-    resultats = [detect(l["texte"]) for l in lignes]
+    resultats = [detect(l["prompt"]) for l in lignes]
     ms = (time.perf_counter() - t0) * 1000 / len(lignes)
 
     par_cat = defaultdict(lambda: [0, 0])
     sources = Counter()
     for l, r in zip(lignes, resultats):
-        par_cat[l["categorie"]][0] += bool(r)
-        par_cat[l["categorie"]][1] += 1
+        par_cat[l["etiquette"]][0] += bool(r)
+        par_cat[l["etiquette"]][1] += 1
         if r and l["sensible"] == "1":
             sources["regles seules" if all(f["source"] == "regle" for f in r) else "avec modele"] += 1
 
@@ -151,7 +166,8 @@ if __name__ == "__main__":
     nons = [bool(r) for l, r in zip(lignes, resultats) if l["sensible"] == "0"]
     pieg = [bool(r) for l, r in zip(lignes, resultats) if l["piege"] == "1"]
 
-    print(f"detect v{VERSION} — modèle {'chargé' if _charger_modele() else 'absent (règles seules)'}")
+    print(f"detect v{VERSION} — règles {'OK' if REGLES_DISPONIBLES else 'ABSENTES'}, "
+          f"modèle {'chargé' if _charger_modele() else 'absent'}")
     print(f"  rappel          : {sum(sens)}/{len(sens)} = {sum(sens) / len(sens):.0%}")
     print(f"  fausses alertes : {sum(nons)}/{len(nons)} = {sum(nons) / len(nons):.0%}  (pièges : {sum(pieg)}/{len(pieg)})")
     print(f"  temps moyen     : {ms:.2f} ms/prompt")
