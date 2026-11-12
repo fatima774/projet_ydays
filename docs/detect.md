@@ -26,13 +26,10 @@ puis fusionne les deux. On peut changer les règles ou le modèle sans toucher a
 
 `texte` : une chaîne Python (`str`), le prompt en clair, déjà décodé par le proxy.
 
-C'est au proxy de décoder (voir `docs/proxy-installation-windows.md`) :
+C'est au proxy de décoder (voir `docs/proxy-installation-windows.md`). Où se trouve le prompt dans chaque requête :
 
-| Site | Requête | Où est le prompt |
-|---|---|---|
-| chatgpt.com (sans compte) | `POST /unauth-mweb/conversation/updates`, form-urlencoded | champ `prompt` |
-| chatgpt.com (connecté) | à identifier | à identifier |
-| autres IA | liste d'Aloïs (carte #32) | à identifier |
+- `docs/captures-sites-ia.md` : captures des 5 IA (ChatGPT, Gemini, Mistral, Claude, Copilot), avec l'emplacement du prompt pour chacune ;
+- `rules/sites_ia.yaml` (Aloïs) : la liste des sites d'IA couverts.
 
 Si le prompt arrive en plusieurs morceaux, le proxy les concatène avant d'appeler `detect()`.
 
@@ -142,6 +139,6 @@ Baseline TF-IDF + régression logistique, validation croisée 5 plis sur `prompt
 
 ## Points ouverts
 
-- **Arno** : requête chatgpt.com en mode connecté ; autres sites d'IA.
+- **Arno** : requête chatgpt.com en mode connecté.
 - **Aloïs** : valider la table catégorie → priorité du modèle.
 - **Yarkin / Elias** : un événement par entrée ou un par prompt (carte #39).
