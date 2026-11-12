@@ -1,6 +1,6 @@
 # Format commun d'événement
 
-Proposition d'Elias (besoins du modèle). **À valider avec Yarkin** pour la partie API et base de données.
+Proposé par Elias (besoins du modèle), **validé côté API** en séance 2 par Fati, qui a repris les cartes de Yarkin (voir `docs/api.md`). L'API Node.js vérifie chaque événement reçu avec ce format (`backend/src/validation.js`) et le stocke dans la table MySQL `evenements` (`backend/db/init.sql`).
 
 Tous les composants parlent ce format : le proxy le produit, l'API le reçoit (`POST /events`), la base le stocke et le tableau de bord l'affiche. Un événement = **une décision** prise par le proxy sur une requête.
 
@@ -33,6 +33,7 @@ Tous les composants parlent ce format : le proxy le produit, l'API le reçoit (`
 | Champ | Type | Obligatoire | Description |
 | --- | --- | --- | --- |
 | `id` | UUID (texte) | oui | Identifiant unique, généré par le proxy |
+| `requete_id` | UUID (texte) | non | Commun à tous les événements d'une même requête (voir section 5) |
 | `date` | ISO 8601, UTC | oui | Moment de la détection |
 | `source.poste` | texte | oui | Nom du PC de test (jamais le nom d'une personne) |
 | `source.module` | `M1` / `M2` / `M3` | oui | Module qui a produit l'événement |
@@ -42,7 +43,7 @@ Tous les composants parlent ce format : le proxy le produit, l'API le reçoit (`
 | `detecteur` | `regle` / `modele` / `les_deux` | oui | Qui a détecté |
 | `score` | nombre de 0 à 1 | oui | Confiance. Une règle validée vaut `1.0`, le modèle donne sa probabilité |
 | `etiquette` | une des 6 étiquettes du guide | oui (M1) | `non_sensible`, `identite`, `finance`, `sante`, `secret_technique`, `donnees_clients` |
-| `explication` | texte court en français | oui | Pourquoi l'alerte : affichée telle quelle dans le tableau de bord |
+| `explication` | texte en français (≤ 500 car.) | oui | Pourquoi l'alerte : affichée telle quelle dans le tableau de bord |
 | `action` | `bloquer` / `masquer` / `alerter` / `laisser` | oui | Décision appliquée par le proxy |
 | `extrait_masque` | texte (≤ 200 car.) | oui | Contexte autour de la donnée, **avec la donnée masquée** |
 | `version_modele` | texte ou `null` | non | Version du classifieur utilisé, ex. `baseline-tfidf-v0` |
@@ -67,11 +68,21 @@ Règle de masquage proposée : on garde les 4 premiers et les 3 derniers caract�
 
 ## 5. Plusieurs données dans un même prompt
 
-Un prompt qui contient 2 données produit **2 événements** (un par donnée), avec le même champ `requete_id` (à ajouter si Yarkin valide). L'action appliquée à la requête est la plus forte : `bloquer` > `masquer` > `alerter` > `laisser`.
+Un prompt qui contient 2 données produit **2 événements** (un par donnée), avec le même champ `requete_id`. L'action appliquée à la requête est la plus forte : `bloquer` > `masquer` > `alerter` > `laisser`.
 
-## 6. Points à trancher avec Yarkin
+## 6. Décisions prises côté API (séance 2)
 
-- [ ] Noms des champs : en français (proposition ci-dessus) ou en anglais dans le code ?
-- [ ] Ajouter `requete_id` pour regrouper les événements d'une même requête ?
-- [ ] `source.module` : un champ à part, ou déduit du préfixe de `regle` (`m1.`, `m2.`) ?
-- [ ] Table PostgreSQL : une colonne par champ, ou une colonne `JSONB` pour les champs propres à chaque module ?
+Tranchées par Fati en construisant l'API (détail dans `docs/api.md`) :
+
+| Question | Décision |
+| --- | --- |
+| Noms des champs : français ou anglais ? | **Français**, exactement comme dans ce document |
+| Ajouter `requete_id` ? | **Oui**, facultatif : un UUID commun aux événements d'une même requête |
+| `source.module` : champ à part ou déduit de `regle` ? | **Champ à part**, obligatoire (`M1`, `M2` ou `M3`) |
+| Table : une colonne par champ ou JSON ? | **Une colonne par champ** dans la table MySQL `evenements` |
+
+L'API ajoute 3 champs de suivi qui ne viennent pas du proxy : `statut` (`nouveau` par défaut), `commentaire` et `recu_le`.
+
+## 7. Lien avec `detect()`
+
+`detect()` renvoie `categorie` et `source` (`docs/detect.md`), alors que l'événement attend `etiquette` et `detecteur`. L'addon fait la conversion : la version 1 d'Arno (`proxy/cybersentinel.py`, branche `cyber`) remplit `etiquette`, `detecteur` et `requete_id` à partir de la sortie de `detect()`.

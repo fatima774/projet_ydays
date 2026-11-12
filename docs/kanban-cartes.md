@@ -16,7 +16,7 @@ Chaque ligne de ce document est **une issue** GitHub intitulée `S2 · NN · <ti
 | Arno | 4 à 7 (+ 31) | #25 à #28 (+ #52) |
 | Aloïs | 8 à 12 (+ 36) | #29 à #33 (+ #57) |
 | Kiliann | 13 à 16 | #34 à #37 |
-| Yarkin (absent, non assigné, repris par Fati) | 17 à 20 | #38 à #41 |
+| Yarkin (absent, cartes reprises par Fati) | 17 à 20 | #38 à #41 |
 | Fati | 21 à 24 | #42 à #45 |
 | Elias | 25 à 28 (+ 18) | #46 à #49 (+ #39) |
 | Nolan | 29 à 32 | #50 à #53 |
@@ -54,8 +54,8 @@ Chaque ligne de ce document est **une issue** GitHub intitulée `S2 · NN · <ti
 | --- | --- | --- | --- | --- |
 | 17 | ★ Ranger le dépôt (dossiers + README) et donner l'accès | Yarkin | dev | Les 8 membres ont accès, structure à jour |
 | 18 | ★ Format commun d'événement | Yarkin, Elias | dev | `docs/format-evenement.md` validé |
-| 19 | ★ Schéma d'architecture proxy → API → base → dashboard | Yarkin | dev | Schéma dans `docs/` avec M1, M2 et le modèle |
-| 20 | Docker Compose PostgreSQL + API FastAPI vide | Yarkin | dev | `docker compose up` démarre `POST /events` et `GET /alerts` |
+| 19 | ★ Schéma d'architecture proxy → API → base → dashboard | Yarkin, fait par Fati | dev | Schéma dans `docs/` avec M1, M2 et le modèle |
+| 20 | Docker Compose MySQL + API Node.js (prévu au départ : PostgreSQL + FastAPI) | Yarkin, fait par Fati | dev | `docker compose up` démarre `POST /events` et `GET /alerts` |
 | 21 | ★ Maquettes des 4 écrans | Fati | dev | Alertes, détail, réglages, statistiques dans `docs/` |
 | 22 | ★ Appliquer la charte graphique | Fati | dev | #0A1A33, #2EE6D6, #FF4D6D, police Inter |
 | 23 | ★ Créer le projet front (React + Vite) | Fati | dev | Le projet démarre avec `npm run dev` |

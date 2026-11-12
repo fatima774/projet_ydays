@@ -12,8 +12,8 @@ Rédigée en séance 2 (12 novembre 2026), animée par Elias. Chaque membre la r
 | Arno | Cyber | Proxy mitmproxy, certificat, procédure d'installation | Kiliann |
 | Aloïs | Cyber | Règles M1 (données sensibles), note RGPD | Imad |
 | Kiliann | Cyber | Module 2 (paquets inventés par les IA), règles M2 | Arno |
-| Yarkin | Dev | Dépôt, infra Docker, API FastAPI, architecture | Fati |
-| Fati | Dev | Tableau de bord : maquettes et front React | Yarkin |
+| Yarkin | Dev | Infra et API (absent en séance 2, rôle à confirmer en séance 3) | Fati |
+| Fati | Dev | Tableau de bord (maquettes, front React) ; en séance 2, API Node.js + MySQL et architecture à la place de Yarkin | Yarkin |
 
 **Binôme de secours** : si quelqu'un est absent, son binôme reprend ses tâches prioritaires (★).
 
