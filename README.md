@@ -63,18 +63,20 @@ Détails : `docs/architecture.md`.
 | Aloïs | Cybersécurité |
 | Kiliann | Cybersécurité |
 
-## Démarrer le proxy (premier prototype)
+## Démarrer le proxy
+
+Depuis la racine du dépôt (détails : `docs/proxy-installation-windows.md`) :
 
 ```bash
 pip install mitmproxy
-mitmdump -s proxy/addon.py
+mitmweb --set http2=false -s proxy/cybersentinel.py
 ```
 
 Puis, sur le PC de test :
 
 1. Régler le proxy du navigateur sur `127.0.0.1:8080`.
 2. Ouvrir http://mitm.it et installer le certificat mitmproxy.
-3. Coller un faux IBAN dans ChatGPT : l'alerte s'affiche dans le terminal.
+3. Coller un faux IBAN dans ChatGPT : l'alerte s'affiche dans le terminal et l'événement est écrit dans `logs/evenements.jsonl`.
 
 ## Cadre d'utilisation
 
