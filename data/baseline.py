@@ -1,6 +1,6 @@
 """CyberSentinel — bonus Nolan : baseline TF-IDF + régression logistique.
 
-Apprend la catégorie d'un prompt (non_sensible, identite, finance, sante,
+Apprend l'étiquette principale d'un prompt (guide d'annotation d'Elias) (non_sensible, identite, finance, sante,
 secret_technique, donnees_clients) à partir de data/prompts_v1.csv.
 
 1. Mesure honnête par validation croisée (le modèle ne voit jamais le prompt qu'il prédit).
@@ -36,7 +36,7 @@ def creer_modele():
 
 def main():
     df = pd.read_csv(CSV, encoding="utf-8-sig")
-    X, y = df["texte"], df["categorie"]
+    X, y = df["prompt"], df["etiquette"]
 
     # 1. Mesure honnête : validation croisée en 5 parties
     cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)

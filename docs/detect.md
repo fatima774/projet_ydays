@@ -121,13 +121,13 @@ python detection/detect.py data/prompts_v1.csv   # règles + modèle sur les 150
 python data/baseline.py                          # mesure honnête du modèle + réentraînement
 ```
 
-Baseline TF-IDF + régression logistique, validation croisée 5 plis sur `prompts_v1.csv` :
+Baseline TF-IDF + régression logistique, validation croisée 5 plis sur `prompts_v1.csv` (étiqueté selon le guide d'Elias) :
 
 | Mesure | Résultat |
 |---|---|
-| Rappel (sensible détecté) | 32 % |
-| Fausses alertes | 3 % (2 pièges sur 55) |
-| Santé | 0/12 |
+| Rappel (sensible détecté) | 41 % |
+| Fausses alertes | 5 % (3 pièges sur 55) |
+| Santé | 2/18 |
 
 150 prompts, c'est trop peu pour un modèle : il servira de point de comparaison. Le jeu sera agrandi aux séances 3-5 (ai4privacy, carte d'Imad).
 

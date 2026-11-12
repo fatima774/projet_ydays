@@ -151,14 +151,14 @@ if __name__ == "__main__":
         lignes = list(csv.DictReader(f))
 
     t0 = time.perf_counter()
-    resultats = [detect(l["texte"]) for l in lignes]
+    resultats = [detect(l["prompt"]) for l in lignes]
     ms = (time.perf_counter() - t0) * 1000 / len(lignes)
 
     par_cat = defaultdict(lambda: [0, 0])
     sources = Counter()
     for l, r in zip(lignes, resultats):
-        par_cat[l["categorie"]][0] += bool(r)
-        par_cat[l["categorie"]][1] += 1
+        par_cat[l["etiquette"]][0] += bool(r)
+        par_cat[l["etiquette"]][1] += 1
         if r and l["sensible"] == "1":
             sources["regles seules" if all(f["source"] == "regle" for f in r) else "avec modele"] += 1
 
