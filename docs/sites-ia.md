@@ -2,7 +2,7 @@
 
 Le proxy n'analyse que le trafic vers les sites d'IA. La liste utilisée par le code est `rules/sites_ia.yaml`. Cette page explique les choix.
 
-**Responsable :** Aloïs · **Validation des chemins :** Arno (captures mitmproxy)
+**Responsable :** Aloïs · **Captures :** Arno (12/11/2026, Firefox 152, mitmproxy 12.3.1, `--set http2=false`, prompt de test « TESTCYBER bonjour »)
 
 ## Priorités
 
@@ -12,28 +12,53 @@ Le proxy n'analyse que le trafic vers les sites d'IA. La liste utilisée par le 
 | 2 | DeepSeek, Perplexity, API OpenAI / Anthropic / Gemini / Mistral | Usage croissant ; les API sont appelées par les scripts et les extensions des développeurs |
 | 3 | Grok, Meta AI, Poe, HuggingChat, GitHub Copilot | Moins courants en entreprise, à ajouter si on a le temps |
 
-## Ce qu'il faut trouver pour chaque site
+## Sites prioritaires : résultats des captures
 
-Pour brancher un site, il faut trois infos, toutes visibles dans mitmproxy (`mitmweb`) en envoyant un prompt de test :
-
-1. **Le domaine** qui reçoit le prompt (ex. `chatgpt.com`).
-2. **Le chemin** de la requête POST (ex. `/backend-api/conversation`).
-3. **Où est le texte** dans le corps : champ JSON, formulaire, ou WebSocket.
-
-| Site | Domaine | Chemin connu | Format | Statut |
+| Site | Requête qui porte le prompt | Format | Comment lire le prompt | Statut |
 | --- | --- | --- | --- | --- |
-| ChatGPT | chatgpt.com | `/backend-api/conversation` (ou `/backend-api/f/conversation`) | JSON, texte dans `messages[].content.parts[]` | à confirmer (Arno) |
-| Gemini | gemini.google.com | `/_/BardChatUi/data/…StreamGenerate` | formulaire, paramètre `f.req` (JSON dans une chaîne) | à confirmer |
-| Claude | claude.ai | `/api/organizations/<org>/chat_conversations/<id>/completion` | JSON, champ `prompt` | à confirmer |
-| Le Chat | chat.mistral.ai | ? | JSON | à trouver |
-| Copilot | copilot.microsoft.com | ? | probablement WebSocket | à trouver |
+| ChatGPT | `POST chatgpt.com/unauth-mweb/conversation/updates` | formulaire | champ `prompt` | ✅ sans compte |
+| Gemini | `POST geminiweb-pa.clients6.google.com/v1/processSession` | formulaire + base64 + protobuf | décoder `reqN___data__` en base64, puis garder le texte lisible | ✅ sans compte |
+| Claude | `POST claude.ai/claudeai-rpc/…/ConversationService/PerformAction` | protobuf brut | garder le texte lisible du corps | ✅ connecté |
+| Le Chat (Mistral) | `POST chat.mistral.ai/api/chat` | JSON | `messageInput[].text` (+ `messageFiles[]`) | ✅ sans compte |
+| Copilot | `POST turbo.microsoft.com/pe/api/artifacts/encodeArtifactUnauthenticated` | JSON | champ `content` | ✅ sans compte |
 
-Les chemins internes des interfaces web ne sont pas documentés et changent régulièrement : **c'est la capture qui fait foi**. Les API (api.openai.com, etc.) sont documentées publiquement et stables.
+Ce qui a changé par rapport à la première version :
+
+- **ChatGPT** sans compte n'utilise pas `/backend-api/conversation` mais `/unauth-mweb/conversation/updates`, en formulaire. Le mode connecté reste à capturer.
+- **Gemini** n'envoie plus rien à `gemini.google.com/…StreamGenerate`. Le prompt part vers un autre domaine, `geminiweb-pa.clients6.google.com`.
+- **Claude** est passé de `/api/organizations/…` (JSON) à `/claudeai-rpc/` (protobuf).
+- **Copilot** sans compte envoie le prompt à `turbo.microsoft.com`, un domaine qu'on n'avait pas.
+
+## Constats importants (pour la démo et le dossier)
+
+1. **La donnée part avant la connexion.** Sur Le Chat et Copilot sans compte, le site demande de se connecter *après* l'envoi, mais le prompt a déjà quitté le poste (réponse 200). Même si l'utilisateur abandonne, la donnée est chez l'éditeur. C'est un bon argument pour CyberSentinel : il faut intercepter au moment de l'envoi, pas compter sur l'utilisateur.
+2. **Gemini enverrait le texte pendant la frappe.** Le texte a été vu deux fois. À vérifier : taper un texte sans appuyer sur Entrée et regarder si un POST part. Si c'est confirmé, une donnée collée puis effacée serait déjà sortie.
+3. **Le prompt n'est pas toujours en clair.** Gemini l'encode en base64, Claude utilise du protobuf. Un filtre `~b TESTCYBER` ne trouve pas Gemini. Il faut décoder avant de chercher.
+
+## Règle pour l'addon
+
+Ne jamais analyser le corps brut avec `get_text()` : il faut toujours décoder selon le format du site (champ `extraction` de `rules/sites_ia.yaml`).
+
+| `extraction` | Sites | Méthode |
+| --- | --- | --- |
+| `champ_form` | ChatGPT | `flow.request.urlencoded_form["prompt"]` |
+| `champ_json` | Mistral, Copilot, API | lire le champ indiqué dans le JSON |
+| `textes_lisibles` | Claude | extraire les suites de caractères lisibles du corps binaire |
+| `base64_textes` | Gemini | décoder `reqN___data__` en base64, puis textes lisibles |
+| `corps_entier` | sites non capturés | secours : tout le corps |
+
+**Méthode de secours qui marche partout :** décoder ce qui est encodé, extraire tous les morceaux de texte lisibles, puis appeler `detect()` dessus.
+
+## Reste à faire
+
+- Capturer ChatGPT **connecté** (sans doute `/backend-api/…` en JSON).
+- Capturer Copilot **connecté** : le vrai chat passe probablement par un WebSocket (filtre `~websocket` ; dans l'addon, hook `websocket_message` au lieu de `request`).
+- Vérifier l'envoi pendant la frappe sur Gemini.
+- Sites de priorité 2 et 3 : chemins à trouver.
 
 ## Points d'attention
 
-- **Analyser tout le corps** : tant que le champ exact n'est pas confirmé, le plus sûr est de passer le corps entier dans `detect()`. On perd un peu en précision (métadonnées JSON), mais on ne rate pas de prompt.
-- **WebSocket (Copilot)** : mitmproxy les intercepte avec le hook `websocket_message`, pas `request`. Il faudra un bout de code à part dans l'addon.
-- **Fichiers joints** : les fichiers déposés dans ChatGPT/Claude partent dans des requêtes d'upload séparées (souvent vers d'autres domaines, du stockage cloud). Hors périmètre pour l'instant, à noter comme limite dans le dossier.
-- **Certificate pinning** : les applis de bureau et mobiles de certaines IA refusent le certificat mitmproxy. On teste uniquement dans le **navigateur**.
-- **Sous-domaines** : un hôte correspond s'il se termine par `.<domaine>` (attention : `endswith("claude.ai")` accepterait aussi `faux-claude.ai`, il faut comparer `host == d or host.endswith("." + d)`).
+- **Requêtes vs réponses** : utiliser `~bq` (et non `~b`) dans mitmweb pour ne chercher que dans les requêtes. Par exemple, `StreamTimeline` de Claude contient le texte dans la réponse, ce qui n'est pas une fuite.
+- **Fichiers joints** : Mistral les met dans `messageFiles[]`. Sur les autres sites, ils partent dans des requêtes d'upload séparées. Hors périmètre pour l'instant, à noter comme limite.
+- **Certificate pinning** : les applis de bureau et mobiles refusent le certificat mitmproxy. On teste uniquement dans le **navigateur**.
+- **Sous-domaines** : comparer `host == d or host.endswith("." + d)`, car `endswith("claude.ai")` accepterait aussi `faux-claude.ai`.
