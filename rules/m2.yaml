@@ -1,0 +1,40 @@
+module: m2_paquets_inventes
+ecosystemes: [pypi, npm]
+
+regles:
+  - id: M2-01
+    nom: paquet_tres_recent
+    signal: age_premiere_publication_jours < 30
+    priorite: haute
+    action: alerter
+    exemples_declenchent: [ ]    # à remplir en S2-15
+    exemples_non_declenchent: [ ]
+
+  - id: M2-02
+    nom: peu_telecharge
+    signal: telechargements_mois < 1000
+    priorite: moyenne
+    action: alerter
+    exemples_declenchent: [ ]
+    exemples_non_declenchent: [ ]
+
+  - id: M2-03
+    nom: nom_proche_paquet_connu
+    signal: distance_edition(nom, top_1000) <= 2
+    priorite: haute
+    action: alerter
+    exemples_declenchent: [ ]
+    exemples_non_declenchent: [ ]
+
+  - id: M2-04
+    nom: paquet_inexistant
+    signal: existe == false
+    priorite: basse
+    action: alerter
+    exemples_declenchent: [ ]
+    exemples_non_declenchent: [ ]
+
+# Règle de combinaison : bloquer seulement si au moins 2 signaux
+decision:
+  bloquer_si: nb_signaux >= 2
+  sinon: alerter
