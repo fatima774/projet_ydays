@@ -1,0 +1,28 @@
+﻿type,nb prompts,Presidio natif,Règles M1,Hybride,qui doit s'en charger
+NOM,51,98%,0%,98%,modèle NER (Presidio/spaCy)
+TEL,16,100%,100%,100%,règles M1 (Presidio aussi bon)
+SANTE,12,0%,0%,0%,classifieur (pas un format)
+EMAIL,11,100%,100%,100%,règles M1 (Presidio aussi bon)
+IBAN,11,100%,100%,100%,règles M1
+DATE_NAISSANCE,10,100%,0%,0%,règle à ajouter (Presidio la voit)
+ADRESSE,10,100%,0%,0%,"modèle NER (LOCATION, à filtrer)"
+MOT_DE_PASSE,8,0%,12%,12%,règles M1 (à améliorer)
+NIR,7,0%,100%,100%,règles M1
+CARTE,4,0%,100%,100%,règles M1
+CLE_API,4,0%,50%,50%,règles M1 (à améliorer)
+SALAIRE,4,0%,0%,0%,classifieur (pas un format)
+DONNEES_COMMERCIALES,3,0%,0%,0%,classifieur (pas un format)
+SIRET,2,0%,100%,100%,règles M1
+SOLDE,2,0%,0%,0%,classifieur (pas un format)
+SECRET,2,0%,50%,50%,règles M1 (à améliorer)
+TOKEN,2,0%,100%,100%,règles M1
+IP_INTERNE,2,100%,0%,0%,règle à ajouter (Presidio la voit)
+LICENCE,1,0%,0%,0%,règle à ajouter
+DETTE,1,0%,0%,0%,classifieur (pas un format)
+PERMIS,1,0%,0%,0%,règle à ajouter
+IMMATRICULATION,1,0%,0%,0%,règle à ajouter
+URL_SECRETE,1,100%,0%,0%,règles M1 (à améliorer)
+CNI,1,0%,0%,0%,règle à ajouter
+PRET,1,0%,0%,0%,classifieur (pas un format)
+CLE_PRIVEE,1,0%,100%,100%,règles M1
+PASSEPORT,1,0%,0%,0%,règle à ajouter
