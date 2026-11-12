@@ -10,9 +10,7 @@ CyberSentinel lit le contenu des messages envoyés aux IA pour y chercher des do
 
 - Le proxy tourne **uniquement sur des PC ou VM de test** appartenant à l'équipe.
 - Seuls les membres de l'équipe envoient du trafic dans le proxy, en connaissance de cause.
-- **Aucune vraie donnée** : IBAN, cartes, n° de sécu, clés… sont inventés ou sont des numéros de test publics (ex. carte `4111 1111 1111 1111`, clé AWS `AKIAIOSF••••••••••••`). Les exemples de `rules/m1.yaml` et de `data/` respectent cette règle.
-- Le certificat mitmproxy n'est installé que sur ces PC de test, et **retiré** à la fin du projet.
-- Pas de clé privée de la CA mitmproxy (`~/.mitmproxy/`) dans le dépôt Git.
+- **Aucune vraie donnée** : IBAN, cartes, n° de sécu, clés… sont inventés ou sont des numéros de test publics (ex. carte `4111 1111 1111 1111`, clé AWS d'exemple de la documentation AWS). Les exemples de `rules/m1.yaml` et de `data/` respectent cette règle.
 
 ### Ce qui est stocké
 
